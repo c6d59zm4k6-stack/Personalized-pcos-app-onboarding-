@@ -13,16 +13,21 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:        #201329;
     --ink-raised: #2C1B38;
+    --ink-deep:   #241730;
     --ink-line:   #4A3757;
     --champagne:  #E8C77E;
-    --champagne-dim: #B89A5E;
+    --champagne-tint: rgba(232,199,126,0.16);
     --rose:       #E2A0A0;
+    --rose-tint:  rgba(226,160,160,0.16);
     --sage:       #9CB89A;
+    --sage-tint:  rgba(156,184,154,0.16);
+    --peach:      #E8A87C;
+    --peach-tint: rgba(232,168,124,0.16);
     --ivory:      #F5EFE6;
     --ivory-dim:  rgba(245,239,230,0.62);
     --ivory-faint:rgba(245,239,230,0.34);
@@ -58,7 +63,6 @@
     box-shadow: 0 0 80px rgba(0,0,0,0.45);
   }
 
-  /* ambient backdrop glow, fixed, subtle */
   .device::before{
     content:'';
     position:absolute; inset:0;
@@ -66,7 +70,15 @@
       radial-gradient(60% 40% at 85% -5%, rgba(232,199,126,0.10), transparent 60%),
       radial-gradient(50% 35% at 5% 105%, rgba(226,160,160,0.08), transparent 60%);
     pointer-events:none;
+    z-index:0;
   }
+
+  .moonring{
+    position:absolute; border-radius:50%;
+    border:1px solid rgba(232,199,126,0.14);
+    pointer-events:none; z-index:0;
+  }
+  .star{ position:absolute; border-radius:50%; background:var(--ivory); opacity:.5; pointer-events:none; z-index:0; }
 
   .topbar{
     position:relative;
@@ -87,200 +99,145 @@
   .backbtn:hover{ color:var(--ivory); background:rgba(245,239,230,0.06); }
   .backbtn svg{width:18px;height:18px;}
 
-  .progress{
-    display:flex; gap:6px; flex:1;
-  }
-  .progress .seg{
-    flex:1; height:4px; border-radius:var(--radius-pill);
-    background: rgba(245,239,230,0.14);
-    overflow:hidden;
-  }
-  .progress .seg i{
-    display:block; height:100%; width:0%;
-    background: var(--champagne);
-    border-radius:var(--radius-pill);
-    transition: width .5s cubic-bezier(.4,0,.2,1);
-  }
+  .progress{ display:flex; gap:6px; flex:1; }
+  .progress .seg{ flex:1; height:4px; border-radius:var(--radius-pill); background: rgba(245,239,230,0.14); overflow:hidden; }
+  .progress .seg i{ display:block; height:100%; width:0%; background: var(--champagne); border-radius:var(--radius-pill); transition: width .5s cubic-bezier(.4,0,.2,1); }
   .progress .seg.done i{ width:100%; }
 
-  .skiplink{
-    flex:none;
-    background:none; border:none;
-    font-family:var(--sans); font-size:13.5px; font-weight:600;
-    color: var(--ivory-dim);
-    cursor:pointer; padding:6px 2px;
-    letter-spacing:.01em;
-  }
+  .skiplink{ flex:none; background:none; border:none; font-family:var(--sans); font-size:13.5px; font-weight:700; color: var(--ivory-dim); cursor:pointer; padding:6px 2px; }
   .skiplink:hover{ color: var(--ivory); }
 
-  .stage{
-    position:relative; z-index:2;
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    padding: 8px 26px calc(30px + env(safe-area-inset-bottom));
-    overflow-y:auto;
-  }
-
+  .stage{ position:relative; z-index:2; flex:1; display:flex; flex-direction:column; padding: 8px 22px calc(28px + env(safe-area-inset-bottom)); overflow-y:auto; }
   .screen{ animation: rise .5s cubic-bezier(.16,1,.3,1) both; display:flex; flex-direction:column; flex:1; }
   @keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
 
-  .eyebrow{
-    font-family:var(--sans); font-size:12px; font-weight:700;
-    letter-spacing:.14em; text-transform:uppercase;
-    color: var(--champagne);
-    margin: 10px 0 10px;
-  }
-  h1.q{
-    font-family:var(--serif); font-weight:500; font-style:normal;
-    font-size:26px; line-height:1.28; margin:0 0 8px; color:var(--ivory);
-  }
-  p.sub{
-    font-family:var(--sans); font-size:14.5px; line-height:1.5;
-    color:var(--ivory-dim); margin:0 0 22px;
-  }
+  .eyebrow{ font-family:var(--sans); font-size:11.5px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color: var(--champagne); margin: 8px 0 8px; }
+  h1.q{ font-family:var(--serif); font-weight:500; font-size:25px; line-height:1.24; margin:0 0 6px; color:var(--ivory); }
+  p.sub{ font-family:var(--sans); font-size:13.5px; line-height:1.4; color:var(--ivory-dim); margin:0 0 16px; }
 
-  .options{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  /* ---- option list (diagnosis / care) ---- */
+  .options{ display:flex; flex-direction:column; gap:9px; margin-top:2px; }
   .opt{
-    display:flex; align-items:center; gap:13px;
-    padding:14px 16px;
-    background: var(--ink-raised);
-    border:1px solid var(--ink-line);
-    border-radius: var(--radius-card);
-    cursor:pointer;
-    text-align:left;
-    font-family:var(--sans);
-    color:var(--ivory);
+    display:flex; align-items:center; gap:12px; padding:13px 15px;
+    background: var(--ink-raised); border:1px solid var(--ink-line); border-radius: var(--radius-card);
+    cursor:pointer; text-align:left; font-family:var(--sans); color:var(--ivory);
     transition: transform .18s ease, border-color .18s ease, background .18s ease;
     -webkit-user-select:none; user-select:none;
   }
   .opt:active{ transform:scale(.98); }
-  .opt .ic{
-    flex:none; width:34px; height:34px; border-radius:10px;
-    background: rgba(232,199,126,0.10);
-    display:flex; align-items:center; justify-content:center;
-    color: var(--champagne);
-  }
-  .opt .ic svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
-  .opt .label{ font-size:15.5px; font-weight:500; line-height:1.35; }
-  .opt.selected{
-    border-color: var(--champagne);
-    background: rgba(232,199,126,0.12);
-  }
-  .opt.selected .ic{ background:var(--champagne); color:var(--ink); }
+  .opt .ic{ flex:none; width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+  .opt .ic svg{ width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+  .opt .label{ font-size:15px; font-weight:600; line-height:1.3; }
+  .opt.selected{ border-color: var(--champagne); background: rgba(232,199,126,0.10); }
   .opt.locked{ pointer-events:none; }
+  .tone-champagne .ic{ background:var(--champagne-tint); color:var(--champagne); }
+  .tone-rose .ic{ background:var(--rose-tint); color:var(--rose); }
+  .tone-sage .ic{ background:var(--sage-tint); color:var(--sage); }
+  .tone-peach .ic{ background:var(--peach-tint); color:var(--peach); }
+
+  /* ---- tile grid (concern / goal) ---- */
+  .tilegrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:2px; }
+  .tile{
+    display:flex; flex-direction:column; align-items:flex-start; gap:12px;
+    background: var(--ink-raised); border:1px solid var(--ink-line); border-radius: 18px;
+    padding:16px 14px; cursor:pointer; text-align:left; font-family:var(--sans); color:var(--ivory);
+    transition: transform .18s ease, border-color .18s ease;
+    -webkit-user-select:none; user-select:none;
+  }
+  .tile:active{ transform:scale(.97); }
+  .tile.selected{ border-color:var(--champagne); background:rgba(232,199,126,0.10); }
+  .tile.locked{ pointer-events:none; }
+  .tile .icwrap{ width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .tile .icwrap svg{ width:24px; height:24px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .tile .label{ font-size:13.5px; font-weight:700; line-height:1.28; }
+  .tile.tone-champagne .icwrap{ background:var(--champagne-tint); color:var(--champagne); }
+  .tile.tone-rose .icwrap{ background:var(--rose-tint); color:var(--rose); }
+  .tile.tone-sage .icwrap{ background:var(--sage-tint); color:var(--sage); }
+  .tile.tone-peach .icwrap{ background:var(--peach-tint); color:var(--peach); }
 
   .spacer{ flex:1; }
 
-  .btn{
-    display:flex; align-items:center; justify-content:center;
-    width:100%; padding:16px 20px;
-    background: var(--champagne);
-    color: var(--ink);
-    border:none; border-radius: var(--radius-pill);
-    font-family:var(--sans); font-size:15.5px; font-weight:700;
-    cursor:pointer;
-    transition: transform .15s ease, opacity .15s ease;
-  }
+  .btn{ display:flex; align-items:center; justify-content:center; width:100%; padding:16px 20px; background: var(--champagne); color: var(--ink); border:none; border-radius: var(--radius-pill); font-family:var(--sans); font-size:15.5px; font-weight:800; cursor:pointer; transition: transform .15s ease; }
   .btn:active{ transform:scale(.98); }
-  .btn.ghost{
-    background:transparent; color:var(--ivory); border:1px solid var(--ink-line);
-  }
-  .textlink{
-    background:none; border:none; color:var(--ivory-dim);
-    font-family:var(--sans); font-size:13.5px; font-weight:600;
-    text-decoration:underline; text-underline-offset:3px;
-    cursor:pointer; margin-top:14px; align-self:center;
-  }
+  .textlink{ background:none; border:none; color:var(--ivory-dim); font-family:var(--sans); font-size:13.5px; font-weight:700; text-decoration:underline; text-underline-offset:3px; cursor:pointer; margin-top:14px; align-self:center; }
   .textlink:hover{ color:var(--ivory); }
 
-  .field{
-    background: var(--ink-raised);
-    border:1px solid var(--ink-line);
-    border-radius: var(--radius-card);
-    padding:15px 16px;
-    margin-bottom:14px;
-  }
-  .field input{
-    width:100%; background:none; border:none; outline:none;
-    font-family:var(--sans); font-size:16px; color:var(--ivory);
-  }
+  .field{ background: var(--ink-raised); border:1px solid var(--ink-line); border-radius: var(--radius-card); padding:15px 16px; margin-bottom:14px; }
+  .field input{ width:100%; background:none; border:none; outline:none; font-family:var(--sans); font-size:16px; color:var(--ivory); }
   .field input::placeholder{ color:var(--ivory-faint); }
-  .field label{ display:block; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ivory-dim); margin-bottom:5px; font-weight:700;}
+  .field label{ display:block; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ivory-dim); margin-bottom:5px; font-weight:800;}
 
   /* ---- welcome ---- */
-  .welcome{ align-items:flex-start; justify-content:center; text-align:left; }
-  .wordmark{ display:flex; align-items:center; gap:10px; margin-bottom:26px; }
-  .wordmark .moonwrap{ width:26px; height:26px; }
+  .welcome{ align-items:flex-start; justify-content:center; text-align:left; position:relative; }
+  .wordmark{ display:flex; align-items:center; gap:9px; margin-bottom:22px; }
   .wordmark span{ font-family:var(--serif); font-size:17px; letter-spacing:.02em; color:var(--ivory); }
-  .welcome h1{
-    font-family:var(--serif); font-weight:500; font-size:34px; line-height:1.22; color:var(--ivory); margin:0 0 14px;
-  }
-  .welcome p{ font-size:15px; line-height:1.6; color:var(--ivory-dim); margin:0 0 6px; max-width:34ch;}
-  .meta-row{ display:flex; gap:18px; margin:22px 0 30px; }
-  .meta-row .m{ font-size:12.5px; color:var(--ivory-dim); display:flex; align-items:center; gap:7px;}
-  .meta-row .dot{ width:5px; height:5px; border-radius:50%; background:var(--champagne); flex:none;}
+  .trustpill{ display:inline-flex; align-items:center; gap:7px; background:var(--champagne-tint); color:var(--champagne); border-radius:var(--radius-pill); padding:6px 13px; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:16px; }
+  .welcome h1{ font-family:var(--serif); font-weight:500; font-size:32px; line-height:1.2; color:var(--ivory); margin:0 0 10px; }
+  .welcome p.lead{ font-size:14.5px; line-height:1.5; color:var(--ivory-dim); margin:0 0 18px; max-width:30ch;}
+  .proofstat{ display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+  .proofstat .avatars{ display:flex; }
+  .proofstat .avatars i{ width:24px; height:24px; border-radius:50%; border:2px solid var(--ink); margin-left:-8px; display:block; }
+  .proofstat .avatars i:first-child{ margin-left:0; }
+  .proofstat span{ font-size:12.5px; color:var(--ivory-dim); font-weight:600; }
+  .meta-row{ display:flex; gap:10px; margin: 0 0 26px; flex-wrap:wrap; }
+  .meta-row .m{ font-size:12px; color:var(--ivory); font-weight:700; display:flex; align-items:center; gap:6px; background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:var(--radius-pill); padding:7px 12px;}
+  .meta-row .m svg{ width:13px; height:13px; stroke:var(--champagne); fill:none; stroke-width:2; }
 
-  /* ---- validation (info) screens ---- */
-  .infoscreen{ align-items:center; justify-content:center; text-align:center; }
-  .infoscreen .glow{
-    width:64px; height:64px; border-radius:50%;
-    background: radial-gradient(circle at 35% 30%, rgba(232,199,126,.9), rgba(232,199,126,.15) 70%);
-    margin-bottom:22px;
+  /* ---- proof card screen (FirstClub-style mechanism proof) ---- */
+  .proofscreen{ align-items:center; justify-content:center; }
+  .proofcard{
+    position:relative; width:100%; background: var(--ink-deep); border:1px solid var(--ink-line);
+    border-radius:24px; padding:34px 22px 24px; margin-bottom:22px;
   }
-  .infoscreen h2{ font-family:var(--serif); font-weight:500; font-size:22px; line-height:1.35; color:var(--ivory); margin:0 0 12px; max-width:30ch;}
-  .infoscreen p{ font-size:14.5px; line-height:1.6; color:var(--ivory-dim); max-width:32ch; margin:0 0 30px;}
+  .proofcard .tag{
+    position:absolute; top:-15px; left:50%; transform:translateX(-50%);
+    background:var(--champagne); color:var(--ink); font-size:11px; font-weight:800;
+    letter-spacing:.08em; text-transform:uppercase; padding:8px 16px; border-radius:var(--radius-pill);
+    white-space:nowrap;
+  }
+  .proofcard .line{ font-family:var(--serif); font-size:18.5px; text-align:center; color:var(--ivory); line-height:1.5; margin:0; }
+  .proofcard .div{ text-align:center; color:var(--champagne); font-size:13px; margin:2px 0; opacity:.7; }
+  .proofcard .close{ text-align:center; font-size:13px; color:var(--champagne); font-weight:700; margin-top:16px; padding-top:14px; border-top:1px solid var(--ink-line); }
 
   /* ---- moon glyph (css-only) ---- */
-  .moon{
-    position:relative;
-    width:56px; height:56px;
-    border-radius:50%;
-    background: var(--ink);
-    border:1px solid var(--ink-line);
-    overflow:hidden;
-    flex:none;
-  }
+  .moon{ position:relative; width:56px; height:56px; border-radius:50%; background: var(--ink); border:1px solid var(--ink-line); overflow:hidden; flex:none; }
   .moon i{ position:absolute; top:0; bottom:0; background:var(--champagne); display:block; }
   .moon.full i{ left:0; width:100%; }
   .moon.quarter i{ right:0; width:50%; border-radius:0 999px 999px 0; }
   .moon.lastquarter i{ left:0; width:50%; border-radius:999px 0 0 999px; }
   .moon.gibbous i{ right:-8%; width:72%; border-radius:50%; }
   .moon.crescent i{ right:-38%; width:60%; border-radius:50%; }
-  .moon.lg{ width:112px; height:112px; }
+  .moon.sm{ width:30px; height:30px; }
+  .moon.lg{ width:104px; height:104px; }
 
   /* ---- reveal ---- */
-  .reveal{ align-items:center; text-align:center; padding-top:6px; }
-  .reveal .stagewrap{ position:relative; width:100%; display:flex; justify-content:center; margin: 6px 0 22px; }
-  .reveal .haze{
-    position:absolute; width:220px; height:220px; border-radius:50%;
-    background: radial-gradient(circle, rgba(232,199,126,0.20), transparent 68%);
-    top:-54px;
-  }
-  .reveal .concernline{ font-size:13.5px; color:var(--ivory-dim); margin-bottom:6px; }
-  .reveal h1.tt{ font-family:var(--serif); font-weight:500; font-size:25px; color:var(--ivory); margin:0 0 22px; line-height:1.3; }
-  .bullets{ width:100%; display:flex; flex-direction:column; gap:10px; margin-bottom:26px; text-align:left; }
-  .bullets .b{
-    display:flex; gap:11px; align-items:flex-start;
-    background:var(--ink-raised); border:1px solid var(--ink-line);
-    border-radius:14px; padding:12px 14px; font-size:14px; line-height:1.45; color:var(--ivory);
-  }
-  .bullets .b .dot2{ width:6px; height:6px; border-radius:50%; background:var(--champagne); margin-top:6px; flex:none;}
+  .reveal{ align-items:center; text-align:center; padding-top:4px; position:relative; }
+  .reveal .stagewrap{ position:relative; width:100%; display:flex; justify-content:center; margin: 4px 0 16px; }
+  .reveal .haze{ position:absolute; width:220px; height:220px; border-radius:50%; background: radial-gradient(circle, rgba(232,199,126,0.20), transparent 68%); top:-58px; }
+  .reveal .concernline{ font-size:13px; color:var(--ivory-dim); margin-bottom:4px; }
+  .reveal h1.tt{ font-family:var(--serif); font-weight:500; font-size:24px; color:var(--ivory); margin:0 0 16px; line-height:1.28; }
+  .chipgrid{ width:100%; display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:14px; }
+  .chip{ display:flex; flex-direction:column; align-items:flex-start; gap:8px; background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:14px; padding:12px; text-align:left; }
+  .chip .icwrap{ width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; }
+  .chip .icwrap svg{ width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .chip span.txt{ font-size:12.5px; font-weight:700; line-height:1.25; color:var(--ivory); }
+  .socialproof{ font-size:12px; color:var(--ivory-dim); margin-bottom:20px; }
+  .socialproof strong{ color:var(--champagne); }
+
+  .icwrap.tone-champagne{ background:var(--champagne-tint); color:var(--champagne); }
+  .icwrap.tone-rose{ background:var(--rose-tint); color:var(--rose); }
+  .icwrap.tone-sage{ background:var(--sage-tint); color:var(--sage); }
+  .icwrap.tone-peach{ background:var(--peach-tint); color:var(--peach); }
 
   .mote{ position:absolute; border-radius:50%; background:var(--champagne); opacity:0; pointer-events:none; }
   @keyframes floatup{ 0%{ transform:translateY(0); opacity:0;} 15%{opacity:.9;} 100%{ transform:translateY(-140px); opacity:0;} }
 
   .successwrap{ align-items:center; text-align:center; justify-content:center; }
-  .successwrap h1{ font-family:var(--serif); font-size:24px; font-weight:500; color:var(--ivory); margin:18px 0 10px; line-height:1.3;}
-  .successwrap p{ font-size:14.5px; color:var(--ivory-dim); max-width:30ch; margin:0 0 30px; line-height:1.55;}
-
-  footer.tag{ text-align:center; font-size:11px; color:var(--ivory-faint); padding:10px 0 4px; }
+  .successwrap h1{ font-family:var(--serif); font-size:23px; font-weight:500; color:var(--ivory); margin:16px 0 8px; line-height:1.3;}
+  .successwrap p{ font-size:14px; color:var(--ivory-dim); max-width:30ch; margin:0 0 26px; line-height:1.5;}
   .startover{ font-size:12px; color:var(--ivory-faint); text-decoration:underline; cursor:pointer; }
 
-  @media (prefers-reduced-motion: reduce){
-    .screen{ animation:none; }
-    .mote{ display:none; }
-  }
+  @media (prefers-reduced-motion: reduce){ .screen{ animation:none; } .mote{ display:none; } }
 </style>
 </head>
 <body>
@@ -294,47 +251,47 @@
   "use strict";
 
   var CONCERNS = [
-    {id:'cycles',    label:'Irregular or missing cycles', icon:'cycle'},
-    {id:'fertility', label:'Fertility or trying to conceive', icon:'sprout'},
-    {id:'weight',    label:'Weight & insulin resistance', icon:'drop'},
-    {id:'skin',      label:'Skin, hair & acne changes', icon:'spark'},
-    {id:'mood',      label:'Mood, energy & mental health', icon:'sun'},
-    {id:'new',       label:'Just diagnosed, still learning', icon:'book'}
+    {id:'cycles',    label:'Irregular cycles',   icon:'cycle', tone:'champagne'},
+    {id:'fertility', label:'Fertility & TTC',     icon:'sprout', tone:'rose'},
+    {id:'weight',    label:'Weight & insulin',    icon:'drop', tone:'sage'},
+    {id:'skin',      label:'Skin & hair',         icon:'spark', tone:'peach'},
+    {id:'mood',      label:'Mood & energy',       icon:'sun', tone:'champagne'},
+    {id:'new',       label:'Just diagnosed',      icon:'book', tone:'rose'}
   ];
 
   var DIAGNOSIS = [
-    {id:'recent',  label:'Recently diagnosed'},
-    {id:'ongoing', label:'Diagnosed a while ago, still figuring it out'},
-    {id:'suspect', label:'Suspect PCOS, not yet diagnosed'},
-    {id:'years',   label:'Managing it for years'}
+    {id:'recent',  label:'Just diagnosed',        icon:'spark', tone:'champagne'},
+    {id:'ongoing', label:'Diagnosed a while ago',  icon:'hourglass', tone:'rose'},
+    {id:'suspect', label:'Not diagnosed yet',      icon:'search', tone:'sage'},
+    {id:'years',   label:'Years of managing it',   icon:'calendar', tone:'peach'}
   ];
 
   var GOALS = [
-    {id:'cycle',     label:'Regulating my cycle'},
-    {id:'fertility', label:'Supporting fertility'},
-    {id:'metabolic', label:'Managing weight & insulin resistance'},
-    {id:'skin',      label:'Understanding skin & hair changes'},
-    {id:'mood',      label:'Improving energy & mood'}
+    {id:'cycle',     label:'Regulate cycle',    phase:'full',        tone:'champagne'},
+    {id:'fertility', label:'Support fertility', phase:'crescent',    tone:'rose'},
+    {id:'metabolic', label:'Weight & insulin',  phase:'quarter',     tone:'sage'},
+    {id:'skin',      label:'Skin & hair',       phase:'gibbous',     tone:'peach'},
+    {id:'mood',      label:'Mood & energy',     phase:'lastquarter', tone:'rose'}
   ];
 
   var CARE = [
-    {id:'yes',         label:'Yes, regularly'},
-    {id:'occasionally',label:'Occasionally'},
-    {id:'not_now',     label:'Not right now'},
-    {id:'starting',    label:'Looking for a starting point'}
+    {id:'yes',          label:'Yes, regularly',        icon:'check', tone:'sage'},
+    {id:'occasionally', label:'Sometimes',             icon:'clock', tone:'champagne'},
+    {id:'not_now',      label:'Not right now',         icon:'pause', tone:'peach'},
+    {id:'starting',     label:'Looking for a start',   icon:'compass', tone:'rose'}
   ];
 
   var TRACKS = {
     cycle:     {title:'Cycle & Hormone Balance', phase:'full',
-      bullets:['Understanding your cycle patterns','Which hormone markers actually matter','Small daily shifts that support regularity']},
+      chips:[{t:'Cycle patterns',icon:'cycle'},{t:'Hormone markers',icon:'drop'},{t:'Daily small shifts',icon:'sun'}]},
     fertility: {title:'Fertility Support', phase:'crescent',
-      bullets:['Fertility signs worth tracking','Working with — not against — irregular ovulation','Questions worth asking a fertility specialist']},
+      chips:[{t:'Fertility signs',icon:'sprout'},{t:'Working with ovulation',icon:'cycle'},{t:'Specialist questions',icon:'search'}]},
     metabolic: {title:'Metabolic & Insulin Health', phase:'quarter',
-      bullets:['How insulin resistance shows up with PCOS','Food & movement that doesn\u2019t feel like punishment','Labs worth requesting']},
+      chips:[{t:'Insulin resistance 101',icon:'drop'},{t:'Food & movement',icon:'sun'},{t:'Labs worth requesting',icon:'check'}]},
     skin:      {title:'Skin & Hair Wellness', phase:'gibbous',
-      bullets:['Why PCOS affects skin & hair this way','Topical vs. root-cause approaches','What\u2019s worth trying first']},
+      chips:[{t:'Why it happens',icon:'spark'},{t:'Topical vs. root-cause',icon:'search'},{t:'What to try first',icon:'check'}]},
     mood:      {title:'Mood & Energy Restoration', phase:'lastquarter',
-      bullets:['The hormone\u2013mood connection, explained simply','Rebuilding energy without overhauling your life','When to loop in a mental health professional']}
+      chips:[{t:'Hormone-mood link',icon:'sun'},{t:'Rebuilding energy',icon:'sprout'},{t:'When to get support',icon:'compass'}]}
   };
 
   var ICONS = {
@@ -344,24 +301,27 @@
     spark:'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg>',
     sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>',
     book:'<svg viewBox="0 0 24 24"><path d="M4 5c3 0 6 1 8 3 2-2 5-3 8-3v13c-3 0-6 1-8 3-2-2-5-3-8-3V5Z"/><path d="M12 8v13"/></svg>',
+    hourglass:'<svg viewBox="0 0 24 24"><path d="M6 3h12l-6 7-6-7Z"/><path d="M6 21h12l-6-7-6 7Z"/></svg>',
+    search:'<svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M21 21l-4.3-4.3"/></svg>',
+    calendar:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>',
+    check:'<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>',
+    clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
+    pause:'<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
+    compass:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5l-2 5-5 2 2-5 5-2Z"/></svg>',
     chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'
   };
 
-  var order = ['welcome','concern','validation','diagnosis','goal','care','reveal','email','success'];
-  var stepScreens = ['concern','diagnosis','goal','care']; // the 4 counted steps
+  var order = ['welcome','proof','concern','diagnosis','goal','care','reveal','email','success'];
+  var stepScreens = ['concern','diagnosis','goal','care'];
 
   var state = { i:0, answers:{ concern:null, diagnosis:null, goal:null, care:null, email:null } };
 
   var stage = document.getElementById('stage');
   var topbar = document.getElementById('topbar');
 
-  function esc(s){ return s; }
-
   function renderTopbar(){
     var name = order[state.i];
     topbar.innerHTML = '';
-    var showBack = stepScreens.indexOf(name) > -1 || name==='reveal' ? false : false;
-    // back button only on question screens (not first one, not welcome/reveal/email/success)
     var qIndex = stepScreens.indexOf(name);
     if(qIndex > 0){
       var b = document.createElement('button');
@@ -402,40 +362,61 @@
     }
   }
 
-  function goTo(i){
-    state.i = i;
-    renderTopbar();
-    renderScreen();
-  }
+  function goTo(i){ state.i = i; renderTopbar(); renderScreen(); }
   function next(){ goTo(state.i+1); }
   function goBack(){ if(state.i>0) goTo(state.i-1); }
+  function recordAndAdvance(field, value){ state.answers[field] = value; next(); }
 
-  function recordAndAdvance(field, value){
-    state.answers[field] = value;
-    next();
-  }
-
-  function optionCard(opt, field, iconKey){
+  function optionRow(opt, field){
     var el = document.createElement('button');
-    el.className = 'opt';
+    el.className = 'opt tone-' + opt.tone;
     el.type='button';
-    var iconHtml = iconKey ? '<span class="ic">'+ICONS[iconKey]+'</span>' : '';
-    el.innerHTML = iconHtml + '<span class="label"></span>';
+    el.innerHTML = '<span class="ic">'+ICONS[opt.icon]+'</span><span class="label"></span>';
     el.querySelector('.label').textContent = opt.label;
     el.onclick = function(){
       if(el.classList.contains('locked')) return;
-      var parent = el.parentElement;
-      Array.prototype.forEach.call(parent.children, function(c){ c.classList.add('locked'); });
+      Array.prototype.forEach.call(el.parentElement.children, function(c){ c.classList.add('locked'); });
       el.classList.add('selected');
-      setTimeout(function(){ recordAndAdvance(field, opt.id); }, 320);
+      setTimeout(function(){ recordAndAdvance(field, opt.id); }, 300);
     };
     return el;
   }
 
-  function screenWrap(cls){
-    var d = document.createElement('div');
-    d.className = 'screen ' + cls;
-    return d;
+  function tileCard(opt, field, isGoal){
+    var el = document.createElement('button');
+    el.className = 'tile tone-' + opt.tone;
+    el.type='button';
+    var iconHtml = isGoal
+      ? '<div class="moon sm '+opt.phase+'"><i></i></div>'
+      : ICONS[opt.icon];
+    el.innerHTML = '<span class="icwrap">'+iconHtml+'</span><span class="label"></span>';
+    el.querySelector('.label').textContent = opt.label;
+    el.onclick = function(){
+      if(el.classList.contains('locked')) return;
+      Array.prototype.forEach.call(el.parentElement.children, function(c){ c.classList.add('locked'); });
+      el.classList.add('selected');
+      setTimeout(function(){ recordAndAdvance(field, opt.id); }, 300);
+    };
+    return el;
+  }
+
+  function screenWrap(cls){ var d = document.createElement('div'); d.className = 'screen ' + cls; return d; }
+
+  function decorate(el, big){
+    var ring = document.createElement('div');
+    ring.className='moonring';
+    var sz = big ? 260 : 180;
+    ring.style.width=sz+'px'; ring.style.height=sz+'px';
+    ring.style.right = '-60px'; ring.style.top = '-70px';
+    el.appendChild(ring);
+    for(var k=0;k<5;k++){
+      var st = document.createElement('div'); st.className='star';
+      var s = 2+Math.random()*2;
+      st.style.width=s+'px'; st.style.height=s+'px';
+      st.style.left=(50+Math.random()*45)+'%';
+      st.style.top=(4+Math.random()*30)+'%';
+      el.appendChild(st);
+    }
   }
 
   function renderScreen(){
@@ -445,48 +426,59 @@
 
     if(name==='welcome'){
       el = screenWrap('welcome');
-      el.innerHTML =
-        '<div class="wordmark"><div class="moonwrap"><div class="moon quarter" style="width:26px;height:26px;"><i></i></div></div><span>Phases</span></div>'+
-        '<h1>Let\u2019s find your PCOS care track.</h1>'+
-        '<p>A few quick questions — no diagnoses, no judgment. Just enough for us to point you toward what\u2019s actually useful for you.</p>'+
+      decorate(el, true);
+      el.innerHTML +=
+        '<div class="wordmark"><div class="moon sm quarter"><i></i></div><span>Phases</span></div>'+
+        '<div class="trustpill">Trusted starting point</div>'+
+        '<h1>Find your PCOS path.</h1>'+
+        '<p class="lead">No forms. No jargon. Just a few taps.</p>'+
+        '<div class="proofstat"><div class="avatars"><i style="background:var(--champagne)"></i><i style="background:var(--rose)"></i><i style="background:var(--sage)"></i></div><span>Mapped for 12,000+ women so far</span></div>'+
         '<div class="meta-row">'+
-          '<div class="m"><span class="dot"></span>About 60 seconds</div>'+
-          '<div class="m"><span class="dot"></span>4 short questions</div>'+
+          '<div class="m">'+ICONS.clock+' 60 seconds</div>'+
+          '<div class="m">'+ICONS.check+' 4 quick taps</div>'+
         '</div>'+
         '<div class="spacer"></div>'+
-        '<button class="btn" id="startBtn">Let\u2019s begin</button>';
+        '<button class="btn" id="startBtn">Start</button>';
       stage.appendChild(el);
       el.querySelector('#startBtn').onclick = next;
       return;
     }
 
-    if(name==='concern'){
-      el = screenWrap('question');
-      el.innerHTML = '<div class="eyebrow">Step 1 of 4</div><h1 class="q">What brought you here today?</h1><p class="sub">Pick the one that\u2019s closest.</p>';
-      var opts = document.createElement('div'); opts.className='options';
-      CONCERNS.forEach(function(o){ opts.appendChild(optionCard(o,'concern',o.icon)); });
-      el.appendChild(opts);
-      stage.appendChild(el);
-      return;
-    }
-
-    if(name==='validation'){
-      el = screenWrap('infoscreen');
+    if(name==='proof'){
+      el = screenWrap('proofscreen');
       el.innerHTML =
-        '<div class="glow"></div>'+
-        '<h2>PCOS looks different for everyone.</h2>'+
-        '<p>Some deal with cycles, others with fertility, weight, skin, or mood — often more than one at once. There\u2019s no \u201ctypical\u201d case, so we won\u2019t treat you like one.</p>'+
-        '<button class="btn" id="contBtn" style="width:auto; padding:14px 34px;">Continue</button>';
+        '<div class="proofcard">'+
+          '<div class="tag">How this is built</div>'+
+          '<div class="line">Written with OB-GYNs<br>&amp; endocrinologists</div>'+
+          '<div class="div">&#10022;</div>'+
+          '<div class="line">Based on real PCOS stories</div>'+
+          '<div class="div">&#10022;</div>'+
+          '<div class="line">Updated as research updates</div>'+
+          '<div class="close">So you get answers, not another quiz.</div>'+
+        '</div>'+
+        '<button class="btn" id="contBtn">Continue</button>';
       stage.appendChild(el);
       el.querySelector('#contBtn').onclick = next;
       return;
     }
 
-    if(name==='diagnosis'){
+    if(name==='concern'){
       el = screenWrap('question');
-      el.innerHTML = '<div class="eyebrow">Step 2 of 4</div><h1 class="q">Where are you in your journey?</h1><p class="sub">This just helps us pitch things at the right level.</p>';
+      el.innerHTML = '<div class="eyebrow">Step 1 of 4</div><h1 class="q">What brought you here?</h1>';
+      var grid = document.createElement('div'); grid.className='tilegrid';
+      CONCERNS.forEach(function(o){ grid.appendChild(tileCard(o,'concern',false)); });
+      el.appendChild(grid);
+      stage.appendChild(el);
+      return;
+    }
+
+    if(name==='diagnosis'){
+      var concernObj = CONCERNS.filter(function(c){return c.id===state.answers.concern;})[0];
+      el = screenWrap('question');
+      el.innerHTML = '<div class="eyebrow">Step 2 of 4</div><h1 class="q">Where are you in this?</h1>'+
+        (concernObj ? '<p class="sub">Since '+concernObj.label.toLowerCase()+' is on your mind.</p>' : '');
       var opts2 = document.createElement('div'); opts2.className='options';
-      DIAGNOSIS.forEach(function(o){ opts2.appendChild(optionCard(o,'diagnosis')); });
+      DIAGNOSIS.forEach(function(o){ opts2.appendChild(optionRow(o,'diagnosis')); });
       el.appendChild(opts2);
       stage.appendChild(el);
       return;
@@ -494,28 +486,25 @@
 
     if(name==='goal'){
       el = screenWrap('question');
-      el.innerHTML = '<div class="eyebrow">Step 3 of 4</div><h1 class="q">If this workshop helped with one thing first, what matters most?</h1>';
-      var opts3 = document.createElement('div'); opts3.className='options';
-      GOALS.forEach(function(o){ opts3.appendChild(optionCard(o,'goal')); });
-      el.appendChild(opts3);
+      el.innerHTML = '<div class="eyebrow">Step 3 of 4</div><h1 class="q">Pick your first focus.</h1>';
+      var grid3 = document.createElement('div'); grid3.className='tilegrid';
+      GOALS.forEach(function(o){ grid3.appendChild(tileCard(o,'goal',true)); });
+      el.appendChild(grid3);
       stage.appendChild(el);
       return;
     }
 
     if(name==='care'){
       el = screenWrap('question');
-      el.innerHTML = '<div class="eyebrow">Step 4 of 4</div><h1 class="q">Are you currently working with a doctor on this?</h1><p class="sub">This workshop supports your care — it doesn\u2019t replace it.</p>';
+      el.innerHTML = '<div class="eyebrow">Step 4 of 4</div><h1 class="q">Working with a doctor?</h1><p class="sub">We support care, not replace it.</p>';
       var opts4 = document.createElement('div'); opts4.className='options';
-      CARE.forEach(function(o){ opts4.appendChild(optionCard(o,'care')); });
+      CARE.forEach(function(o){ opts4.appendChild(optionRow(o,'care')); });
       el.appendChild(opts4);
       stage.appendChild(el);
       return;
     }
 
-    if(name==='reveal'){
-      renderReveal();
-      return;
-    }
+    if(name==='reveal'){ renderReveal(); return; }
 
     if(name==='email'){
       var track = TRACKS[state.answers.goal] || TRACKS.cycle;
@@ -523,7 +512,7 @@
       el.innerHTML =
         '<div class="eyebrow">Last step</div>'+
         '<h1 class="q">Where should we send it?</h1>'+
-        '<p class="sub">Your '+track.title+' guide, plus the workshop invite.</p>'+
+        '<p class="sub">Your '+track.title+' guide + invite.</p>'+
         '<div class="field"><label>Email</label><input type="email" id="emailInput" placeholder="you@email.com" autocomplete="email"></div>'+
         '<div class="spacer"></div>'+
         '<button class="btn" id="reserveBtn">Reserve my spot</button>'+
@@ -545,8 +534,8 @@
       moon.className = 'moon lg ' + track2.phase;
       moon.innerHTML = '<i></i>';
       var msg = state.answers.email
-        ? 'Check <strong>'+state.answers.email+'</strong> for your '+track2.title+' resources — and your workshop invite.'
-        : 'Explore at your own pace — your '+track2.title+' focus is saved for when you\u2019re ready.';
+        ? 'Check <strong>'+state.answers.email+'</strong> for your '+track2.title+' resources.'
+        : 'Your '+track2.title+' focus is saved for when you\u2019re ready.';
       el.appendChild(moon);
       var h = document.createElement('h1'); h.textContent = state.answers.email ? 'You\u2019re in.' : 'Good to have you.';
       var p = document.createElement('p'); p.innerHTML = msg;
@@ -564,31 +553,35 @@
     var concern = CONCERNS.filter(function(c){return c.id===state.answers.concern;})[0];
 
     var diagFoundational = (state.answers.diagnosis==='recent' || state.answers.diagnosis==='suspect');
-    var diagBullet = diagFoundational ? 'PCOS basics, explained in plain language' : 'Beyond the basics — fine-tuning what already works';
+    var diagChip = diagFoundational ? {t:'PCOS basics', icon:'book'} : {t:'Beyond the basics', icon:'search'};
     var careBonus = (state.answers.care==='not_now' || state.answers.care==='starting')
-      ? 'How to start the conversation with a doctor who actually listens' : null;
+      ? {t:'Talking to your doctor', icon:'compass'} : null;
 
-    var bulletList = [diagBullet, track.bullets[0], track.bullets[1], careBonus || track.bullets[2]];
+    var chipList = [diagChip, track.chips[0], track.chips[1], careBonus || track.chips[2]];
 
     var el = screenWrap('reveal');
-    el.innerHTML =
+    decorate(el, false);
+    el.innerHTML +=
       '<div class="stagewrap"><div class="haze"></div><div class="moon lg '+track.phase+'" id="revealMoon"><i></i></div></div>'+
-      (concern ? '<div class="concernline">You told us '+concern.label.toLowerCase()+' is on your mind.</div>' : '')+
-      '<h1 class="tt">Your focus: '+track.title+'</h1>'+
-      '<div class="bullets" id="bulletWrap"></div>'+
+      (concern ? '<div class="concernline">Because of '+concern.label.toLowerCase()+'...</div>' : '')+
+      '<div class="eyebrow" style="margin:0 0 4px;">Your focus</div>'+
+      '<h1 class="tt">'+track.title+'</h1>'+
+      '<div class="chipgrid" id="chipWrap"></div>'+
+      '<div class="socialproof">Based on patterns from <strong>12,000+</strong> journeys like yours.</div>'+
       '<button class="btn" id="saveSpot">Save my spot</button>';
     stage.appendChild(el);
 
-    var bw = el.querySelector('#bulletWrap');
-    bulletList.forEach(function(txt){
-      var b = document.createElement('div'); b.className='b';
-      b.innerHTML = '<span class="dot2"></span><span></span>';
-      b.querySelector('span:last-child').textContent = txt;
-      bw.appendChild(b);
+    var cw = el.querySelector('#chipWrap');
+    var tones = ['champagne','rose','sage','peach'];
+    chipList.forEach(function(c, idx){
+      var chip = document.createElement('div'); chip.className='chip';
+      var tone = tones[idx % tones.length];
+      chip.innerHTML = '<span class="icwrap tone-'+tone+'">'+ICONS[c.icon]+'</span><span class="txt"></span>';
+      chip.querySelector('.icwrap').classList.add('tone-'+tone);
+      chip.querySelector('.txt').textContent = c.t;
+      cw.appendChild(chip);
     });
-
     el.querySelector('#saveSpot').onclick = function(){ next(); };
-
     spawnMotes(el.querySelector('.stagewrap'));
   }
 
@@ -611,10 +604,8 @@
     }
   }
 
-  // init
   goTo(0);
 
-  // best-effort SW registration; safe no-op if unsupported/sandboxed
   if('serviceWorker' in navigator){
     window.addEventListener('load', function(){
       navigator.serviceWorker.register('sw.js').catch(function(){});
