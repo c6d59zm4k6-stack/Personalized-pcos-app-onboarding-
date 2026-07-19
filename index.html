@@ -31,199 +31,122 @@
     --ivory:      #F5EFE6;
     --ivory-dim:  rgba(245,239,230,0.62);
     --ivory-faint:rgba(245,239,230,0.34);
-
     --serif: 'Petrona', Georgia, serif;
     --sans:  'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
-
-    --radius-card: 20px;
     --radius-pill: 999px;
     --maxw: 460px;
   }
-
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0; padding:0; height:100%;}
-  body{
-    background: #0f0a14;
-    font-family: var(--sans);
-    color: var(--ivory);
-    display:flex;
-    justify-content:center;
-    min-height:100dvh;
-  }
+  body{ background:#0f0a14; font-family:var(--sans); color:var(--ivory); display:flex; justify-content:center; min-height:100dvh; }
+  .device{ width:100%; max-width:var(--maxw); min-height:100dvh; background:var(--ink); position:relative; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 0 80px rgba(0,0,0,0.45); }
+  .device::before{ content:''; position:absolute; inset:0; background: radial-gradient(60% 40% at 85% -5%, rgba(232,199,126,0.10), transparent 60%), radial-gradient(50% 35% at 5% 105%, rgba(226,160,160,0.08), transparent 60%); pointer-events:none; z-index:0; }
 
-  .device{
-    width:100%;
-    max-width: var(--maxw);
-    min-height:100dvh;
-    background: var(--ink);
-    position:relative;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    box-shadow: 0 0 80px rgba(0,0,0,0.45);
-  }
-
-  .device::before{
-    content:'';
-    position:absolute; inset:0;
-    background:
-      radial-gradient(60% 40% at 85% -5%, rgba(232,199,126,0.10), transparent 60%),
-      radial-gradient(50% 35% at 5% 105%, rgba(226,160,160,0.08), transparent 60%);
-    pointer-events:none;
-    z-index:0;
-  }
-
-  .moonring{
-    position:absolute; border-radius:50%;
-    border:1px solid rgba(232,199,126,0.14);
-    pointer-events:none; z-index:0;
-  }
-  .star{ position:absolute; border-radius:50%; background:var(--ivory); opacity:.5; pointer-events:none; z-index:0; }
-
-  .topbar{
-    position:relative;
-    z-index:5;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding: max(18px, env(safe-area-inset-top)) 22px 6px;
-    min-height:34px;
-  }
-  .backbtn{
-    width:30px; height:30px;
-    border:none; background:transparent; color:var(--ivory-dim);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer; border-radius:50%;
-    flex:none;
-  }
-  .backbtn:hover{ color:var(--ivory); background:rgba(245,239,230,0.06); }
+  .topbar{ position:relative; z-index:5; display:flex; align-items:center; gap:12px; padding:max(18px, env(safe-area-inset-top)) 22px 6px; min-height:34px; }
+  .backbtn{ width:30px; height:30px; border:none; background:transparent; color:var(--ivory-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; border-radius:50%; flex:none; }
   .backbtn svg{width:18px;height:18px;}
-
   .progress{ display:flex; gap:6px; flex:1; }
-  .progress .seg{ flex:1; height:4px; border-radius:var(--radius-pill); background: rgba(245,239,230,0.14); overflow:hidden; }
-  .progress .seg i{ display:block; height:100%; width:0%; background: var(--champagne); border-radius:var(--radius-pill); transition: width .5s cubic-bezier(.4,0,.2,1); }
+  .progress .seg{ flex:1; height:4px; border-radius:var(--radius-pill); background:rgba(245,239,230,0.14); overflow:hidden; }
+  .progress .seg i{ display:block; height:100%; width:0%; background:var(--champagne); border-radius:var(--radius-pill); transition:width .5s cubic-bezier(.4,0,.2,1); }
   .progress .seg.done i{ width:100%; }
+  .skiplink{ flex:none; background:none; border:none; font-family:var(--sans); font-size:13.5px; font-weight:700; color:var(--ivory-dim); cursor:pointer; padding:6px 2px; }
 
-  .skiplink{ flex:none; background:none; border:none; font-family:var(--sans); font-size:13.5px; font-weight:700; color: var(--ivory-dim); cursor:pointer; padding:6px 2px; }
-  .skiplink:hover{ color: var(--ivory); }
-
-  .stage{ position:relative; z-index:2; flex:1; display:flex; flex-direction:column; padding: 8px 22px calc(28px + env(safe-area-inset-bottom)); overflow-y:auto; }
+  .stage{ position:relative; z-index:2; flex:1; display:flex; flex-direction:column; padding:8px 22px calc(28px + env(safe-area-inset-bottom)); overflow-y:auto; }
   .screen{ animation: rise .5s cubic-bezier(.16,1,.3,1) both; display:flex; flex-direction:column; flex:1; }
   @keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
 
-  .eyebrow{ font-family:var(--sans); font-size:11.5px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color: var(--champagne); margin: 8px 0 8px; }
-  h1.q{ font-family:var(--serif); font-weight:500; font-size:25px; line-height:1.24; margin:0 0 6px; color:var(--ivory); }
-  p.sub{ font-family:var(--sans); font-size:13.5px; line-height:1.4; color:var(--ivory-dim); margin:0 0 16px; }
+  h1.q{ font-family:var(--serif); font-weight:500; font-size:24px; line-height:1.26; margin:0 0 6px; color:var(--ivory); text-align:center; }
+  p.sub{ font-family:var(--sans); font-size:13px; line-height:1.4; color:var(--ivory-dim); margin:0 0 16px; text-align:center; }
 
-  /* ---- option list (diagnosis / care) ---- */
-  .options{ display:flex; flex-direction:column; gap:9px; margin-top:2px; }
-  .opt{
-    display:flex; align-items:center; gap:12px; padding:13px 15px;
-    background: var(--ink-raised); border:1px solid var(--ink-line); border-radius: var(--radius-card);
-    cursor:pointer; text-align:left; font-family:var(--sans); color:var(--ivory);
-    transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    -webkit-user-select:none; user-select:none;
-  }
-  .opt:active{ transform:scale(.98); }
-  .opt .ic{ flex:none; width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
-  .opt .ic svg{ width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
-  .opt .label{ font-size:15px; font-weight:600; line-height:1.3; }
-  .opt.selected{ border-color: var(--champagne); background: rgba(232,199,126,0.10); }
-  .opt.locked{ pointer-events:none; }
+  /* ---- hero illustration ---- */
+  .hero{ width:150px; height:150px; margin:6px auto 18px; }
+  .hero .frame{ width:100%; height:100%; border-radius:50%; border:1.5px dashed rgba(232,199,126,0.4); padding:9px; box-sizing:border-box; }
+  .hero .frame img{ width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; animation: breathe 5s ease-in-out infinite; }
+  .hero.big{ width:190px; height:190px; }
+  @keyframes breathe{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.035); } }
+  @media (prefers-reduced-motion: reduce){ .hero .frame img{ animation:none; } }
+
+  /* ---- pill chips (single + multi select) ---- */
+  .pillrow{ display:flex; flex-wrap:wrap; gap:9px; justify-content:center; }
+  .pill{ display:inline-flex; align-items:center; gap:8px; padding:10px 15px 10px 10px; border-radius:var(--radius-pill); background:var(--ink-raised); border:1px solid var(--ink-line); font-family:var(--sans); font-size:13.5px; font-weight:700; color:var(--ivory); cursor:pointer; transition: transform .15s ease, border-color .15s ease, background .15s ease; -webkit-user-select:none; user-select:none; }
+  .pill:active{ transform:scale(.96); }
+  .pill .ic{ width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex:none; }
+  .pill .ic svg{ width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .pill.selected{ border-color:var(--champagne); background:rgba(232,199,126,0.14); }
+  .pill.locked{ pointer-events:none; }
   .tone-champagne .ic{ background:var(--champagne-tint); color:var(--champagne); }
   .tone-rose .ic{ background:var(--rose-tint); color:var(--rose); }
   .tone-sage .ic{ background:var(--sage-tint); color:var(--sage); }
   .tone-peach .ic{ background:var(--peach-tint); color:var(--peach); }
-
-  /* ---- tile grid (concern / goal) ---- */
-  .tilegrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:2px; }
-  .tile{
-    display:flex; flex-direction:column; align-items:flex-start; gap:12px;
-    background: var(--ink-raised); border:1px solid var(--ink-line); border-radius: 18px;
-    padding:16px 14px; cursor:pointer; text-align:left; font-family:var(--sans); color:var(--ivory);
-    transition: transform .18s ease, border-color .18s ease;
-    -webkit-user-select:none; user-select:none;
-  }
-  .tile:active{ transform:scale(.97); }
-  .tile.selected{ border-color:var(--champagne); background:rgba(232,199,126,0.10); }
-  .tile.locked{ pointer-events:none; }
-  .tile .icwrap{ width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
-  .tile .icwrap svg{ width:24px; height:24px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
-  .tile .label{ font-size:13.5px; font-weight:700; line-height:1.28; }
-  .tile.tone-champagne .icwrap{ background:var(--champagne-tint); color:var(--champagne); }
-  .tile.tone-rose .icwrap{ background:var(--rose-tint); color:var(--rose); }
-  .tile.tone-sage .icwrap{ background:var(--sage-tint); color:var(--sage); }
-  .tile.tone-peach .icwrap{ background:var(--peach-tint); color:var(--peach); }
+  .pill .moon{ margin:0; }
 
   .spacer{ flex:1; }
-
-  .btn{ display:flex; align-items:center; justify-content:center; width:100%; padding:16px 20px; background: var(--champagne); color: var(--ink); border:none; border-radius: var(--radius-pill); font-family:var(--sans); font-size:15.5px; font-weight:800; cursor:pointer; transition: transform .15s ease; }
+  .btn{ display:flex; align-items:center; justify-content:center; width:100%; padding:16px 20px; background:var(--champagne); color:var(--ink); border:none; border-radius:var(--radius-pill); font-family:var(--sans); font-size:15.5px; font-weight:800; cursor:pointer; transition: transform .15s ease, opacity .15s ease; }
   .btn:active{ transform:scale(.98); }
+  .btn.disabled{ opacity:.35; pointer-events:none; }
+  .btn.small{ width:auto; padding:13px 30px; align-self:center; }
   .textlink{ background:none; border:none; color:var(--ivory-dim); font-family:var(--sans); font-size:13.5px; font-weight:700; text-decoration:underline; text-underline-offset:3px; cursor:pointer; margin-top:14px; align-self:center; }
-  .textlink:hover{ color:var(--ivory); }
 
-  .field{ background: var(--ink-raised); border:1px solid var(--ink-line); border-radius: var(--radius-card); padding:15px 16px; margin-bottom:14px; }
+  .field{ background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:20px; padding:15px 16px; margin-bottom:14px; }
   .field input{ width:100%; background:none; border:none; outline:none; font-family:var(--sans); font-size:16px; color:var(--ivory); }
   .field input::placeholder{ color:var(--ivory-faint); }
   .field label{ display:block; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ivory-dim); margin-bottom:5px; font-weight:800;}
 
   /* ---- welcome ---- */
-  .welcome{ align-items:flex-start; justify-content:center; text-align:left; position:relative; }
-  .wordmark{ display:flex; align-items:center; gap:9px; margin-bottom:22px; }
-  .wordmark span{ font-family:var(--serif); font-size:17px; letter-spacing:.02em; color:var(--ivory); }
-  .trustpill{ display:inline-flex; align-items:center; gap:7px; background:var(--champagne-tint); color:var(--champagne); border-radius:var(--radius-pill); padding:6px 13px; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:16px; }
-  .welcome h1{ font-family:var(--serif); font-weight:500; font-size:32px; line-height:1.2; color:var(--ivory); margin:0 0 10px; }
-  .welcome p.lead{ font-size:14.5px; line-height:1.5; color:var(--ivory-dim); margin:0 0 18px; max-width:30ch;}
-  .proofstat{ display:flex; align-items:center; gap:10px; margin-bottom:22px; }
-  .proofstat .avatars{ display:flex; }
-  .proofstat .avatars i{ width:24px; height:24px; border-radius:50%; border:2px solid var(--ink); margin-left:-8px; display:block; }
-  .proofstat .avatars i:first-child{ margin-left:0; }
-  .proofstat span{ font-size:12.5px; color:var(--ivory-dim); font-weight:600; }
-  .meta-row{ display:flex; gap:10px; margin: 0 0 26px; flex-wrap:wrap; }
-  .meta-row .m{ font-size:12px; color:var(--ivory); font-weight:700; display:flex; align-items:center; gap:6px; background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:var(--radius-pill); padding:7px 12px;}
-  .meta-row .m svg{ width:13px; height:13px; stroke:var(--champagne); fill:none; stroke-width:2; }
+  .welcome{ align-items:center; justify-content:center; text-align:center; }
+  .wordmark{ display:flex; align-items:center; gap:9px; margin-bottom:14px; }
+  .wordmark span{ font-family:var(--serif); font-size:16px; letter-spacing:.02em; color:var(--ivory); }
+  .trustpill{ display:inline-flex; align-items:center; gap:7px; background:var(--champagne-tint); color:var(--champagne); border-radius:var(--radius-pill); padding:6px 13px; font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px; }
+  .welcome h1{ font-family:var(--serif); font-weight:500; font-size:29px; line-height:1.2; color:var(--ivory); margin:0 0 8px; }
+  .welcome p.lead{ font-size:14px; line-height:1.5; color:var(--ivory-dim); margin:0 0 22px; max-width:28ch;}
+  .meta-row{ display:flex; gap:9px; margin:0 0 26px; flex-wrap:wrap; justify-content:center; }
+  .meta-row .m{ font-size:11.5px; color:var(--ivory); font-weight:700; display:flex; align-items:center; gap:6px; background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:var(--radius-pill); padding:7px 12px;}
+  .meta-row .m svg{ width:12px; height:12px; stroke:var(--champagne); fill:none; stroke-width:2; }
 
-  /* ---- proof card screen (FirstClub-style mechanism proof) ---- */
-  .proofscreen{ align-items:center; justify-content:center; }
-  .proofcard{
-    position:relative; width:100%; background: var(--ink-deep); border:1px solid var(--ink-line);
-    border-radius:24px; padding:34px 22px 24px; margin-bottom:22px;
-  }
-  .proofcard .tag{
-    position:absolute; top:-15px; left:50%; transform:translateX(-50%);
-    background:var(--champagne); color:var(--ink); font-size:11px; font-weight:800;
-    letter-spacing:.08em; text-transform:uppercase; padding:8px 16px; border-radius:var(--radius-pill);
-    white-space:nowrap;
-  }
-  .proofcard .line{ font-family:var(--serif); font-size:18.5px; text-align:center; color:var(--ivory); line-height:1.5; margin:0; }
-  .proofcard .div{ text-align:center; color:var(--champagne); font-size:13px; margin:2px 0; opacity:.7; }
-  .proofcard .close{ text-align:center; font-size:13px; color:var(--champagne); font-weight:700; margin-top:16px; padding-top:14px; border-top:1px solid var(--ink-line); }
+  /* ---- proof card ---- */
+  .proofscreen{ align-items:center; justify-content:center; position:relative; }
+  .proofbackdrop{ position:absolute; width:280px; height:280px; opacity:.55; top:-30px; left:50%; transform:translateX(-50%); border-radius:50%; overflow:hidden; }
+  .proofbackdrop img{ width:100%; height:100%; object-fit:cover; }
+  .proofcard{ position:relative; z-index:2; width:100%; background:rgba(36,23,48,0.94); backdrop-filter:blur(2px); border:1px solid var(--ink-line); border-radius:24px; padding:34px 22px 22px; margin-bottom:20px; margin-top:110px; }
+  .proofcard .tag{ position:absolute; top:-15px; left:50%; transform:translateX(-50%); background:var(--champagne); color:var(--ink); font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; padding:8px 16px; border-radius:var(--radius-pill); white-space:nowrap; }
+  .proofcard .line{ font-family:var(--serif); font-size:17.5px; text-align:center; color:var(--ivory); line-height:1.5; margin:0; }
+  .proofcard .div{ text-align:center; color:var(--champagne); font-size:12px; margin:2px 0; opacity:.7; }
+  .proofcard .close{ text-align:center; font-size:12.5px; color:var(--champagne); font-weight:700; margin-top:14px; padding-top:12px; border-top:1px solid var(--ink-line); }
 
-  /* ---- moon glyph (css-only) ---- */
-  .moon{ position:relative; width:56px; height:56px; border-radius:50%; background: var(--ink); border:1px solid var(--ink-line); overflow:hidden; flex:none; }
+  /* ---- guess slider ---- */
+  .guessval{ font-family:var(--serif); font-size:30px; color:var(--champagne); text-align:center; margin:2px 0 4px; }
+  .guesssub{ text-align:center; font-size:12.5px; color:var(--ivory-dim); margin-bottom:18px; }
+  input[type=range]{ -webkit-appearance:none; width:100%; height:6px; border-radius:999px; background:var(--ink-line); margin:8px 0 24px; }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:26px; height:26px; border-radius:50%; background:var(--champagne); border:3px solid var(--ink); box-shadow:0 2px 8px rgba(0,0,0,.4); cursor:pointer; }
+  input[type=range]::-moz-range-thumb{ width:26px; height:26px; border-radius:50%; background:var(--champagne); border:3px solid var(--ink); cursor:pointer; }
+  .rangeends{ display:flex; justify-content:space-between; font-size:11px; color:var(--ivory-faint); margin-top:-18px; margin-bottom:20px; }
+
+  .dotsgrid{ display:flex; gap:8px; justify-content:center; margin:6px 0 18px; flex-wrap:wrap; }
+  .dotsgrid .dd{ width:22px; height:22px; border-radius:50%; background:var(--ink-raised); border:1px solid var(--ink-line); transition: background .4s ease, border-color .4s ease, transform .4s ease; }
+  .dotsgrid .dd.lit{ background:var(--champagne); border-color:var(--champagne); transform:scale(1.15); }
+
+  /* ---- moon glyph ---- */
+  .moon{ position:relative; width:56px; height:56px; border-radius:50%; background:var(--ink); border:1px solid var(--ink-line); overflow:hidden; flex:none; }
   .moon i{ position:absolute; top:0; bottom:0; background:var(--champagne); display:block; }
   .moon.full i{ left:0; width:100%; }
   .moon.quarter i{ right:0; width:50%; border-radius:0 999px 999px 0; }
   .moon.lastquarter i{ left:0; width:50%; border-radius:999px 0 0 999px; }
   .moon.gibbous i{ right:-8%; width:72%; border-radius:50%; }
   .moon.crescent i{ right:-38%; width:60%; border-radius:50%; }
-  .moon.sm{ width:30px; height:30px; }
+  .moon.xs{ width:20px; height:20px; }
   .moon.lg{ width:104px; height:104px; }
 
   /* ---- reveal ---- */
-  .reveal{ align-items:center; text-align:center; padding-top:4px; position:relative; }
-  .reveal .stagewrap{ position:relative; width:100%; display:flex; justify-content:center; margin: 4px 0 16px; }
-  .reveal .haze{ position:absolute; width:220px; height:220px; border-radius:50%; background: radial-gradient(circle, rgba(232,199,126,0.20), transparent 68%); top:-58px; }
-  .reveal .concernline{ font-size:13px; color:var(--ivory-dim); margin-bottom:4px; }
-  .reveal h1.tt{ font-family:var(--serif); font-weight:500; font-size:24px; color:var(--ivory); margin:0 0 16px; line-height:1.28; }
-  .chipgrid{ width:100%; display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:14px; }
+  .reveal{ align-items:center; text-align:center; padding-top:2px; }
+  .reveal .stagewrap{ position:relative; width:100%; display:flex; justify-content:center; margin:2px 0 14px; }
+  .reveal .haze{ position:absolute; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle, rgba(232,199,126,0.20), transparent 68%); top:-58px; }
+  .reveal .concernline{ font-size:12.5px; color:var(--ivory-dim); margin-bottom:4px; }
+  .reveal h1.tt{ font-family:var(--serif); font-weight:500; font-size:23px; color:var(--ivory); margin:0 0 16px; line-height:1.28; }
+  .chipgrid{ width:100%; display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:16px; }
   .chip{ display:flex; flex-direction:column; align-items:flex-start; gap:8px; background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:14px; padding:12px; text-align:left; }
-  .chip .icwrap{ width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; }
-  .chip .icwrap svg{ width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-  .chip span.txt{ font-size:12.5px; font-weight:700; line-height:1.25; color:var(--ivory); }
-  .socialproof{ font-size:12px; color:var(--ivory-dim); margin-bottom:20px; }
-  .socialproof strong{ color:var(--champagne); }
-
+  .chip .icwrap{ width:28px; height:28px; border-radius:9px; display:flex; align-items:center; justify-content:center; }
+  .chip .icwrap svg{ width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .chip span.txt{ font-size:12px; font-weight:700; line-height:1.25; color:var(--ivory); }
   .icwrap.tone-champagne{ background:var(--champagne-tint); color:var(--champagne); }
   .icwrap.tone-rose{ background:var(--rose-tint); color:var(--rose); }
   .icwrap.tone-sage{ background:var(--sage-tint); color:var(--sage); }
@@ -250,13 +173,24 @@
 (function(){
   "use strict";
 
-  var CONCERNS = [
+  var IMG = {
+    welcome:'illustrations/welcome.webp',
+    proof:'illustrations/proof.webp',
+    guess:'illustrations/guess.webp',
+    symptoms:'illustrations/symptoms.webp',
+    diagnosis:'illustrations/diagnosis.webp',
+    goal:'illustrations/goal.webp',
+    care:'illustrations/care.webp'
+  };
+
+  var SYMPTOMS = [
     {id:'cycles',    label:'Irregular cycles',   icon:'cycle', tone:'champagne'},
-    {id:'fertility', label:'Fertility & TTC',     icon:'sprout', tone:'rose'},
-    {id:'weight',    label:'Weight & insulin',    icon:'drop', tone:'sage'},
-    {id:'skin',      label:'Skin & hair',         icon:'spark', tone:'peach'},
-    {id:'mood',      label:'Mood & energy',       icon:'sun', tone:'champagne'},
-    {id:'new',       label:'Just diagnosed',      icon:'book', tone:'rose'}
+    {id:'weight',    label:'Weight & insulin',   icon:'drop', tone:'sage'},
+    {id:'skin',      label:'Acne, skin & hair',  icon:'spark', tone:'peach'},
+    {id:'fertility', label:'Fertility challenges', icon:'sprout', tone:'rose'},
+    {id:'mood',      label:'Mood swings',        icon:'sun', tone:'champagne'},
+    {id:'fatigue',   label:'Low energy',         icon:'clock', tone:'sage'},
+    {id:'sleep',     label:'Trouble sleeping',   icon:'book', tone:'peach'}
   ];
 
   var DIAGNOSIS = [
@@ -311,13 +245,17 @@
     chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'
   };
 
-  var order = ['welcome','proof','concern','diagnosis','goal','care','reveal','email','success'];
-  var stepScreens = ['concern','diagnosis','goal','care'];
+  var order = ['welcome','proof','guess','guessReveal','symptoms','diagnosis','goal','care','reveal','email','success'];
+  var stepScreens = ['symptoms','diagnosis','goal','care'];
 
-  var state = { i:0, answers:{ concern:null, diagnosis:null, goal:null, care:null, email:null } };
+  var state = { i:0, guess:25, answers:{ symptoms:[], diagnosis:null, goal:null, care:null, email:null } };
 
   var stage = document.getElementById('stage');
   var topbar = document.getElementById('topbar');
+
+  function hero(name, big){
+    return '<div class="hero'+(big?' big':'')+'"><div class="frame"><img src="'+IMG[name]+'" alt=""></div></div>';
+  }
 
   function renderTopbar(){
     var name = order[state.i];
@@ -329,31 +267,22 @@
       b.onclick = function(){ goBack(); };
       topbar.appendChild(b);
     } else {
-      var spacerBtn = document.createElement('div');
-      spacerBtn.style.width='30px'; spacerBtn.style.flex='none';
-      topbar.appendChild(spacerBtn);
+      var sp = document.createElement('div'); sp.style.width='30px'; sp.style.flex='none';
+      topbar.appendChild(sp);
     }
-
     if(qIndex > -1){
-      var prog = document.createElement('div');
-      prog.className='progress';
+      var prog = document.createElement('div'); prog.className='progress';
       for(var s=0;s<stepScreens.length;s++){
-        var seg = document.createElement('div');
-        seg.className='seg' + (s < qIndex+1 ? ' done':'');
-        var inner = document.createElement('i');
-        seg.appendChild(inner);
-        prog.appendChild(seg);
+        var seg = document.createElement('div'); seg.className='seg' + (s < qIndex+1 ? ' done':'');
+        var inner = document.createElement('i'); seg.appendChild(inner); prog.appendChild(seg);
       }
       topbar.appendChild(prog);
     } else {
-      var fill = document.createElement('div'); fill.style.flex='1';
-      topbar.appendChild(fill);
+      var fill = document.createElement('div'); fill.style.flex='1'; topbar.appendChild(fill);
     }
-
     var skippable = (name==='diagnosis' || name==='care');
     if(skippable){
-      var sk = document.createElement('button');
-      sk.className='skiplink'; sk.textContent='Skip';
+      var sk = document.createElement('button'); sk.className='skiplink'; sk.textContent='Skip';
       sk.onclick = function(){ recordAndAdvance(name, null); };
       topbar.appendChild(sk);
     } else if(qIndex > -1){
@@ -367,57 +296,37 @@
   function goBack(){ if(state.i>0) goTo(state.i-1); }
   function recordAndAdvance(field, value){ state.answers[field] = value; next(); }
 
-  function optionRow(opt, field){
+  function singlePill(opt, field, isGoal){
     var el = document.createElement('button');
-    el.className = 'opt tone-' + opt.tone;
+    el.className = 'pill tone-' + opt.tone;
     el.type='button';
-    el.innerHTML = '<span class="ic">'+ICONS[opt.icon]+'</span><span class="label"></span>';
-    el.querySelector('.label').textContent = opt.label;
+    var iconHtml = isGoal ? '<span class="ic"><div class="moon xs '+opt.phase+'"><i></i></div></span>' : '<span class="ic">'+ICONS[opt.icon]+'</span>';
+    el.innerHTML = iconHtml + '<span class="lbl"></span>';
+    el.querySelector('.lbl').textContent = opt.label;
     el.onclick = function(){
       if(el.classList.contains('locked')) return;
       Array.prototype.forEach.call(el.parentElement.children, function(c){ c.classList.add('locked'); });
       el.classList.add('selected');
-      setTimeout(function(){ recordAndAdvance(field, opt.id); }, 300);
+      setTimeout(function(){ recordAndAdvance(field, opt.id); }, 280);
     };
     return el;
   }
 
-  function tileCard(opt, field, isGoal){
+  function multiPill(opt, selectedSet, onChange){
     var el = document.createElement('button');
-    el.className = 'tile tone-' + opt.tone;
+    el.className = 'pill tone-' + opt.tone;
     el.type='button';
-    var iconHtml = isGoal
-      ? '<div class="moon sm '+opt.phase+'"><i></i></div>'
-      : ICONS[opt.icon];
-    el.innerHTML = '<span class="icwrap">'+iconHtml+'</span><span class="label"></span>';
-    el.querySelector('.label').textContent = opt.label;
+    el.innerHTML = '<span class="ic">'+ICONS[opt.icon]+'</span><span class="lbl"></span>';
+    el.querySelector('.lbl').textContent = opt.label;
     el.onclick = function(){
-      if(el.classList.contains('locked')) return;
-      Array.prototype.forEach.call(el.parentElement.children, function(c){ c.classList.add('locked'); });
-      el.classList.add('selected');
-      setTimeout(function(){ recordAndAdvance(field, opt.id); }, 300);
+      if(selectedSet.has(opt.id)){ selectedSet.delete(opt.id); el.classList.remove('selected'); }
+      else { selectedSet.add(opt.id); el.classList.add('selected'); }
+      onChange();
     };
     return el;
   }
 
   function screenWrap(cls){ var d = document.createElement('div'); d.className = 'screen ' + cls; return d; }
-
-  function decorate(el, big){
-    var ring = document.createElement('div');
-    ring.className='moonring';
-    var sz = big ? 260 : 180;
-    ring.style.width=sz+'px'; ring.style.height=sz+'px';
-    ring.style.right = '-60px'; ring.style.top = '-70px';
-    el.appendChild(ring);
-    for(var k=0;k<5;k++){
-      var st = document.createElement('div'); st.className='star';
-      var s = 2+Math.random()*2;
-      st.style.width=s+'px'; st.style.height=s+'px';
-      st.style.left=(50+Math.random()*45)+'%';
-      st.style.top=(4+Math.random()*30)+'%';
-      el.appendChild(st);
-    }
-  }
 
   function renderScreen(){
     stage.innerHTML = '';
@@ -426,16 +335,15 @@
 
     if(name==='welcome'){
       el = screenWrap('welcome');
-      decorate(el, true);
-      el.innerHTML +=
-        '<div class="wordmark"><div class="moon sm quarter"><i></i></div><span>Phases</span></div>'+
+      el.innerHTML =
+        '<div class="wordmark"><div class="moon xs quarter"><i></i></div><span>Phases</span></div>'+
         '<div class="trustpill">Trusted starting point</div>'+
+        hero('welcome', true)+
         '<h1>Find your PCOS path.</h1>'+
         '<p class="lead">No forms. No jargon. Just a few taps.</p>'+
-        '<div class="proofstat"><div class="avatars"><i style="background:var(--champagne)"></i><i style="background:var(--rose)"></i><i style="background:var(--sage)"></i></div><span>Mapped for 12,000+ women so far</span></div>'+
         '<div class="meta-row">'+
           '<div class="m">'+ICONS.clock+' 60 seconds</div>'+
-          '<div class="m">'+ICONS.check+' 4 quick taps</div>'+
+          '<div class="m">'+ICONS.check+' Made for you</div>'+
         '</div>'+
         '<div class="spacer"></div>'+
         '<button class="btn" id="startBtn">Start</button>';
@@ -447,6 +355,7 @@
     if(name==='proof'){
       el = screenWrap('proofscreen');
       el.innerHTML =
+        '<div class="proofbackdrop"><img src="'+IMG.proof+'" alt=""></div>'+
         '<div class="proofcard">'+
           '<div class="tag">How this is built</div>'+
           '<div class="line">Written with OB-GYNs<br>&amp; endocrinologists</div>'+
@@ -462,44 +371,101 @@
       return;
     }
 
-    if(name==='concern'){
+    if(name==='guess'){
       el = screenWrap('question');
-      el.innerHTML = '<div class="eyebrow">Step 1 of 4</div><h1 class="q">What brought you here?</h1>';
-      var grid = document.createElement('div'); grid.className='tilegrid';
-      CONCERNS.forEach(function(o){ grid.appendChild(tileCard(o,'concern',false)); });
-      el.appendChild(grid);
+      el.innerHTML =
+        hero('guess', false)+
+        '<h1 class="q">Quick guess.</h1>'+
+        '<p class="sub">How common do you think PCOS is?</p>'+
+        '<div class="guessval" id="guessVal">1 in '+state.guess+'</div>'+
+        '<div class="guesssub">women of reproductive age</div>'+
+        '<input type="range" min="2" max="50" value="'+state.guess+'" id="guessSlider">'+
+        '<div class="rangeends"><span>Very common</span><span>Very rare</span></div>'+
+        '<div class="spacer"></div>'+
+        '<button class="btn" id="seeAnswer">See the answer</button>';
+      stage.appendChild(el);
+      var slider = el.querySelector('#guessSlider');
+      var valEl = el.querySelector('#guessVal');
+      slider.oninput = function(){ state.guess = +slider.value; valEl.textContent = '1 in ' + slider.value; };
+      el.querySelector('#seeAnswer').onclick = next;
+      return;
+    }
+
+    if(name==='guessReveal'){
+      el = screenWrap('question');
+      var offBy = Math.abs(state.guess - 10);
+      var closeness = offBy <= 3 ? 'Close guess.' : 'Good to know.';
+      el.innerHTML =
+        '<h1 class="q">Actually, it\u2019s 1 in 10.</h1>'+
+        '<p class="sub">'+closeness+' PCOS is one of the most common hormonal conditions there is.</p>'+
+        '<div class="dotsgrid" id="dotsGrid"></div>'+
+        '<p class="sub" style="margin-top:-6px;">You\u2019re far from alone in this.</p>'+
+        '<div class="spacer"></div>'+
+        '<button class="btn" id="contBtn2">Continue</button>';
+      stage.appendChild(el);
+      var dg = el.querySelector('#dotsGrid');
+      for(var d=0; d<10; d++){
+        var dot = document.createElement('div'); dot.className='dd';
+        dg.appendChild(dot);
+      }
+      var dots = dg.querySelectorAll('.dd');
+      setTimeout(function(){ dots[0].classList.add('lit'); }, 250);
+      el.querySelector('#contBtn2').onclick = next;
+      return;
+    }
+
+    if(name==='symptoms'){
+      el = screenWrap('question');
+      el.innerHTML = hero('symptoms', false) + '<h1 class="q">What\u2019s showing up for you?</h1><p class="sub">Choose all that apply.</p>';
+      var row = document.createElement('div'); row.className='pillrow';
+      var selectedSet = new Set(state.answers.symptoms || []);
+      var btn = document.createElement('button'); btn.className='btn disabled'; btn.textContent='Continue';
+      function refreshBtn(){ btn.className = 'btn' + (selectedSet.size ? '' : ' disabled'); }
+      SYMPTOMS.forEach(function(o){
+        var p = multiPill(o, selectedSet, refreshBtn);
+        if(selectedSet.has(o.id)) p.classList.add('selected');
+        row.appendChild(p);
+      });
+      el.appendChild(row);
+      var sp = document.createElement('div'); sp.className='spacer'; el.appendChild(sp);
+      btn.onclick = function(){
+        if(!selectedSet.size) return;
+        state.answers.symptoms = Array.from(selectedSet);
+        next();
+      };
+      el.appendChild(btn);
       stage.appendChild(el);
       return;
     }
 
     if(name==='diagnosis'){
-      var concernObj = CONCERNS.filter(function(c){return c.id===state.answers.concern;})[0];
+      var firstSym = SYMPTOMS.filter(function(s){ return (state.answers.symptoms||[]).indexOf(s.id) > -1; })[0];
       el = screenWrap('question');
-      el.innerHTML = '<div class="eyebrow">Step 2 of 4</div><h1 class="q">Where are you in this?</h1>'+
-        (concernObj ? '<p class="sub">Since '+concernObj.label.toLowerCase()+' is on your mind.</p>' : '');
-      var opts2 = document.createElement('div'); opts2.className='options';
-      DIAGNOSIS.forEach(function(o){ opts2.appendChild(optionRow(o,'diagnosis')); });
-      el.appendChild(opts2);
+      el.innerHTML = hero('diagnosis', false) + '<h1 class="q">Where are you in this?</h1>' +
+        (firstSym ? '<p class="sub">Since '+firstSym.label.toLowerCase()+' is on your mind.</p>' : '');
+      var row2 = document.createElement('div'); row2.className='pillrow';
+      DIAGNOSIS.forEach(function(o){ row2.appendChild(singlePill(o,'diagnosis',false)); });
+      el.appendChild(row2);
       stage.appendChild(el);
       return;
     }
 
     if(name==='goal'){
       el = screenWrap('question');
-      el.innerHTML = '<div class="eyebrow">Step 3 of 4</div><h1 class="q">Pick your first focus.</h1>';
-      var grid3 = document.createElement('div'); grid3.className='tilegrid';
-      GOALS.forEach(function(o){ grid3.appendChild(tileCard(o,'goal',true)); });
-      el.appendChild(grid3);
+      el.innerHTML = hero('goal', false) + '<h1 class="q">Pick your first focus.</h1>';
+      var row3 = document.createElement('div'); row3.className='pillrow';
+      GOALS.forEach(function(o){ row3.appendChild(singlePill(o,'goal',true)); });
+      el.appendChild(row3);
       stage.appendChild(el);
       return;
     }
 
     if(name==='care'){
       el = screenWrap('question');
-      el.innerHTML = '<div class="eyebrow">Step 4 of 4</div><h1 class="q">Working with a doctor?</h1><p class="sub">We support care, not replace it.</p>';
-      var opts4 = document.createElement('div'); opts4.className='options';
-      CARE.forEach(function(o){ opts4.appendChild(optionRow(o,'care')); });
-      el.appendChild(opts4);
+      el.innerHTML = hero('care', false) + '<h1 class="q">Working with a doctor?</h1><p class="sub">This supports care — it doesn\u2019t replace it.</p>';
+      var row4 = document.createElement('div'); row4.className='pillrow';
+      CARE.forEach(function(o){ row4.appendChild(singlePill(o,'care',false)); });
+      el.appendChild(row4);
       stage.appendChild(el);
       return;
     }
@@ -510,7 +476,6 @@
       var track = TRACKS[state.answers.goal] || TRACKS.cycle;
       el = screenWrap('question');
       el.innerHTML =
-        '<div class="eyebrow">Last step</div>'+
         '<h1 class="q">Where should we send it?</h1>'+
         '<p class="sub">Your '+track.title+' guide + invite.</p>'+
         '<div class="field"><label>Email</label><input type="email" id="emailInput" placeholder="you@email.com" autocomplete="email"></div>'+
@@ -530,9 +495,7 @@
     if(name==='success'){
       var track2 = TRACKS[state.answers.goal] || TRACKS.cycle;
       el = screenWrap('successwrap');
-      var moon = document.createElement('div');
-      moon.className = 'moon lg ' + track2.phase;
-      moon.innerHTML = '<i></i>';
+      var moon = document.createElement('div'); moon.className = 'moon lg ' + track2.phase; moon.innerHTML = '<i></i>';
       var msg = state.answers.email
         ? 'Check <strong>'+state.answers.email+'</strong> for your '+track2.title+' resources.'
         : 'Your '+track2.title+' focus is saved for when you\u2019re ready.';
@@ -541,7 +504,7 @@
       var p = document.createElement('p'); p.innerHTML = msg;
       el.appendChild(h); el.appendChild(p);
       var again = document.createElement('div'); again.className='startover'; again.textContent='Start over';
-      again.onclick = function(){ state.answers={concern:null,diagnosis:null,goal:null,care:null,email:null}; goTo(0); };
+      again.onclick = function(){ state.answers={symptoms:[],diagnosis:null,goal:null,care:null,email:null}; state.guess=25; goTo(0); };
       el.appendChild(again);
       stage.appendChild(el);
       return;
@@ -550,7 +513,7 @@
 
   function renderReveal(){
     var track = TRACKS[state.answers.goal] || TRACKS.cycle;
-    var concern = CONCERNS.filter(function(c){return c.id===state.answers.concern;})[0];
+    var firstSym = SYMPTOMS.filter(function(s){ return (state.answers.symptoms||[]).indexOf(s.id) > -1; })[0];
 
     var diagFoundational = (state.answers.diagnosis==='recent' || state.answers.diagnosis==='suspect');
     var diagChip = diagFoundational ? {t:'PCOS basics', icon:'book'} : {t:'Beyond the basics', icon:'search'};
@@ -560,14 +523,11 @@
     var chipList = [diagChip, track.chips[0], track.chips[1], careBonus || track.chips[2]];
 
     var el = screenWrap('reveal');
-    decorate(el, false);
-    el.innerHTML +=
+    el.innerHTML =
       '<div class="stagewrap"><div class="haze"></div><div class="moon lg '+track.phase+'" id="revealMoon"><i></i></div></div>'+
-      (concern ? '<div class="concernline">Because of '+concern.label.toLowerCase()+'...</div>' : '')+
-      '<div class="eyebrow" style="margin:0 0 4px;">Your focus</div>'+
+      (firstSym ? '<div class="concernline">Because of '+firstSym.label.toLowerCase()+'...</div>' : '')+
       '<h1 class="tt">'+track.title+'</h1>'+
       '<div class="chipgrid" id="chipWrap"></div>'+
-      '<div class="socialproof">Based on patterns from <strong>12,000+</strong> journeys like yours.</div>'+
       '<button class="btn" id="saveSpot">Save my spot</button>';
     stage.appendChild(el);
 
@@ -577,10 +537,10 @@
       var chip = document.createElement('div'); chip.className='chip';
       var tone = tones[idx % tones.length];
       chip.innerHTML = '<span class="icwrap tone-'+tone+'">'+ICONS[c.icon]+'</span><span class="txt"></span>';
-      chip.querySelector('.icwrap').classList.add('tone-'+tone);
       chip.querySelector('.txt').textContent = c.t;
       cw.appendChild(chip);
     });
+
     el.querySelector('#saveSpot').onclick = function(){ next(); };
     spawnMotes(el.querySelector('.stagewrap'));
   }
@@ -590,12 +550,10 @@
     for(var k=0;k<10;k++){
       (function(k){
         setTimeout(function(){
-          var m = document.createElement('div');
-          m.className='mote';
+          var m = document.createElement('div'); m.className='mote';
           var size = 3 + Math.random()*4;
           m.style.width = size+'px'; m.style.height = size+'px';
-          m.style.left = (35 + Math.random()*30) + '%';
-          m.style.bottom = '40px';
+          m.style.left = (35 + Math.random()*30) + '%'; m.style.bottom = '40px';
           m.style.animation = 'floatup ' + (1.6 + Math.random()*1.2) + 's ease-out forwards';
           container.appendChild(m);
           setTimeout(function(){ m.remove(); }, 3200);
@@ -607,9 +565,7 @@
   goTo(0);
 
   if('serviceWorker' in navigator){
-    window.addEventListener('load', function(){
-      navigator.serviceWorker.register('sw.js').catch(function(){});
-    });
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
   }
 })();
 </script>
