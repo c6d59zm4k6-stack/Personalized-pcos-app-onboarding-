@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Phases — find your PCOS care track</title>
+<meta name="description" content="A short, warm intake that routes you to the right PCOS workshop track.">
+<meta name="theme-color" content="#201329">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Phases">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:        #201329;
+    --ink-raised: #2C1B38;
+    --ink-line:   #4A3757;
+    --champagne:  #E8C77E;
+    --champagne-dim: #B89A5E;
+    --rose:       #E2A0A0;
+    --sage:       #9CB89A;
+    --ivory:      #F5EFE6;
+    --ivory-dim:  rgba(245,239,230,0.62);
+    --ivory-faint:rgba(245,239,230,0.34);
+
+    --serif: 'Petrona', Georgia, serif;
+    --sans:  'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --radius-card: 20px;
+    --radius-pill: 999px;
+    --maxw: 460px;
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; height:100%;}
+  body{
+    background: #0f0a14;
+    font-family: var(--sans);
+    color: var(--ivory);
+    display:flex;
+    justify-content:center;
+    min-height:100dvh;
+  }
+
+  .device{
+    width:100%;
+    max-width: var(--maxw);
+    min-height:100dvh;
+    background: var(--ink);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    box-shadow: 0 0 80px rgba(0,0,0,0.45);
+  }
+
+  /* ambient backdrop glow, fixed, subtle */
+  .device::before{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(60% 40% at 85% -5%, rgba(232,199,126,0.10), transparent 60%),
+      radial-gradient(50% 35% at 5% 105%, rgba(226,160,160,0.08), transparent 60%);
+    pointer-events:none;
+  }
+
+  .topbar{
+    position:relative;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding: max(18px, env(safe-area-inset-top)) 22px 6px;
+    min-height:34px;
+  }
+  .backbtn{
+    width:30px; height:30px;
+    border:none; background:transparent; color:var(--ivory-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; border-radius:50%;
+    flex:none;
+  }
+  .backbtn:hover{ color:var(--ivory); background:rgba(245,239,230,0.06); }
+  .backbtn svg{width:18px;height:18px;}
+
+  .progress{
+    display:flex; gap:6px; flex:1;
+  }
+  .progress .seg{
+    flex:1; height:4px; border-radius:var(--radius-pill);
+    background: rgba(245,239,230,0.14);
+    overflow:hidden;
+  }
+  .progress .seg i{
+    display:block; height:100%; width:0%;
+    background: var(--champagne);
+    border-radius:var(--radius-pill);
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+  }
+  .progress .seg.done i{ width:100%; }
+
+  .skiplink{
+    flex:none;
+    background:none; border:none;
+    font-family:var(--sans); font-size:13.5px; font-weight:600;
+    color: var(--ivory-dim);
+    cursor:pointer; padding:6px 2px;
+    letter-spacing:.01em;
+  }
+  .skiplink:hover{ color: var(--ivory); }
+
+  .stage{
+    position:relative; z-index:2;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding: 8px 26px calc(30px + env(safe-area-inset-bottom));
+    overflow-y:auto;
+  }
+
+  .screen{ animation: rise .5s cubic-bezier(.16,1,.3,1) both; display:flex; flex-direction:column; flex:1; }
+  @keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+
+  .eyebrow{
+    font-family:var(--sans); font-size:12px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase;
+    color: var(--champagne);
+    margin: 10px 0 10px;
+  }
+  h1.q{
+    font-family:var(--serif); font-weight:500; font-style:normal;
+    font-size:26px; line-height:1.28; margin:0 0 8px; color:var(--ivory);
+  }
+  p.sub{
+    font-family:var(--sans); font-size:14.5px; line-height:1.5;
+    color:var(--ivory-dim); margin:0 0 22px;
+  }
+
+  .options{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  .opt{
+    display:flex; align-items:center; gap:13px;
+    padding:14px 16px;
+    background: var(--ink-raised);
+    border:1px solid var(--ink-line);
+    border-radius: var(--radius-card);
+    cursor:pointer;
+    text-align:left;
+    font-family:var(--sans);
+    color:var(--ivory);
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    -webkit-user-select:none; user-select:none;
+  }
+  .opt:active{ transform:scale(.98); }
+  .opt .ic{
+    flex:none; width:34px; height:34px; border-radius:10px;
+    background: rgba(232,199,126,0.10);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--champagne);
+  }
+  .opt .ic svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .opt .label{ font-size:15.5px; font-weight:500; line-height:1.35; }
+  .opt.selected{
+    border-color: var(--champagne);
+    background: rgba(232,199,126,0.12);
+  }
+  .opt.selected .ic{ background:var(--champagne); color:var(--ink); }
+  .opt.locked{ pointer-events:none; }
+
+  .spacer{ flex:1; }
+
+  .btn{
+    display:flex; align-items:center; justify-content:center;
+    width:100%; padding:16px 20px;
+    background: var(--champagne);
+    color: var(--ink);
+    border:none; border-radius: var(--radius-pill);
+    font-family:var(--sans); font-size:15.5px; font-weight:700;
+    cursor:pointer;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+  .btn:active{ transform:scale(.98); }
+  .btn.ghost{
+    background:transparent; color:var(--ivory); border:1px solid var(--ink-line);
+  }
+  .textlink{
+    background:none; border:none; color:var(--ivory-dim);
+    font-family:var(--sans); font-size:13.5px; font-weight:600;
+    text-decoration:underline; text-underline-offset:3px;
+    cursor:pointer; margin-top:14px; align-self:center;
+  }
+  .textlink:hover{ color:var(--ivory); }
+
+  .field{
+    background: var(--ink-raised);
+    border:1px solid var(--ink-line);
+    border-radius: var(--radius-card);
+    padding:15px 16px;
+    margin-bottom:14px;
+  }
+  .field input{
+    width:100%; background:none; border:none; outline:none;
+    font-family:var(--sans); font-size:16px; color:var(--ivory);
+  }
+  .field input::placeholder{ color:var(--ivory-faint); }
+  .field label{ display:block; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ivory-dim); margin-bottom:5px; font-weight:700;}
+
+  /* ---- welcome ---- */
+  .welcome{ align-items:flex-start; justify-content:center; text-align:left; }
+  .wordmark{ display:flex; align-items:center; gap:10px; margin-bottom:26px; }
+  .wordmark .moonwrap{ width:26px; height:26px; }
+  .wordmark span{ font-family:var(--serif); font-size:17px; letter-spacing:.02em; color:var(--ivory); }
+  .welcome h1{
+    font-family:var(--serif); font-weight:500; font-size:34px; line-height:1.22; color:var(--ivory); margin:0 0 14px;
+  }
+  .welcome p{ font-size:15px; line-height:1.6; color:var(--ivory-dim); margin:0 0 6px; max-width:34ch;}
+  .meta-row{ display:flex; gap:18px; margin:22px 0 30px; }
+  .meta-row .m{ font-size:12.5px; color:var(--ivory-dim); display:flex; align-items:center; gap:7px;}
+  .meta-row .dot{ width:5px; height:5px; border-radius:50%; background:var(--champagne); flex:none;}
+
+  /* ---- validation (info) screens ---- */
+  .infoscreen{ align-items:center; justify-content:center; text-align:center; }
+  .infoscreen .glow{
+    width:64px; height:64px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, rgba(232,199,126,.9), rgba(232,199,126,.15) 70%);
+    margin-bottom:22px;
+  }
+  .infoscreen h2{ font-family:var(--serif); font-weight:500; font-size:22px; line-height:1.35; color:var(--ivory); margin:0 0 12px; max-width:30ch;}
+  .infoscreen p{ font-size:14.5px; line-height:1.6; color:var(--ivory-dim); max-width:32ch; margin:0 0 30px;}
+
+  /* ---- moon glyph (css-only) ---- */
+  .moon{
+    position:relative;
+    width:56px; height:56px;
+    border-radius:50%;
+    background: var(--ink);
+    border:1px solid var(--ink-line);
+    overflow:hidden;
+    flex:none;
+  }
+  .moon i{ position:absolute; top:0; bottom:0; background:var(--champagne); display:block; }
+  .moon.full i{ left:0; width:100%; }
+  .moon.quarter i{ right:0; width:50%; border-radius:0 999px 999px 0; }
+  .moon.lastquarter i{ left:0; width:50%; border-radius:999px 0 0 999px; }
+  .moon.gibbous i{ right:-8%; width:72%; border-radius:50%; }
+  .moon.crescent i{ right:-38%; width:60%; border-radius:50%; }
+  .moon.lg{ width:112px; height:112px; }
+
+  /* ---- reveal ---- */
+  .reveal{ align-items:center; text-align:center; padding-top:6px; }
+  .reveal .stagewrap{ position:relative; width:100%; display:flex; justify-content:center; margin: 6px 0 22px; }
+  .reveal .haze{
+    position:absolute; width:220px; height:220px; border-radius:50%;
+    background: radial-gradient(circle, rgba(232,199,126,0.20), transparent 68%);
+    top:-54px;
+  }
+  .reveal .concernline{ font-size:13.5px; color:var(--ivory-dim); margin-bottom:6px; }
+  .reveal h1.tt{ font-family:var(--serif); font-weight:500; font-size:25px; color:var(--ivory); margin:0 0 22px; line-height:1.3; }
+  .bullets{ width:100%; display:flex; flex-direction:column; gap:10px; margin-bottom:26px; text-align:left; }
+  .bullets .b{
+    display:flex; gap:11px; align-items:flex-start;
+    background:var(--ink-raised); border:1px solid var(--ink-line);
+    border-radius:14px; padding:12px 14px; font-size:14px; line-height:1.45; color:var(--ivory);
+  }
+  .bullets .b .dot2{ width:6px; height:6px; border-radius:50%; background:var(--champagne); margin-top:6px; flex:none;}
+
+  .mote{ position:absolute; border-radius:50%; background:var(--champagne); opacity:0; pointer-events:none; }
+  @keyframes floatup{ 0%{ transform:translateY(0); opacity:0;} 15%{opacity:.9;} 100%{ transform:translateY(-140px); opacity:0;} }
+
+  .successwrap{ align-items:center; text-align:center; justify-content:center; }
+  .successwrap h1{ font-family:var(--serif); font-size:24px; font-weight:500; color:var(--ivory); margin:18px 0 10px; line-height:1.3;}
+  .successwrap p{ font-size:14.5px; color:var(--ivory-dim); max-width:30ch; margin:0 0 30px; line-height:1.55;}
+
+  footer.tag{ text-align:center; font-size:11px; color:var(--ivory-faint); padding:10px 0 4px; }
+  .startover{ font-size:12px; color:var(--ivory-faint); text-decoration:underline; cursor:pointer; }
+
+  @media (prefers-reduced-motion: reduce){
+    .screen{ animation:none; }
+    .mote{ display:none; }
+  }
+</style>
+</head>
+<body>
+  <div class="device" id="device">
+    <div class="topbar" id="topbar"></div>
+    <div class="stage" id="stage"></div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+
+  var CONCERNS = [
+    {id:'cycles',    label:'Irregular or missing cycles', icon:'cycle'},
+    {id:'fertility', label:'Fertility or trying to conceive', icon:'sprout'},
+    {id:'weight',    label:'Weight & insulin resistance', icon:'drop'},
+    {id:'skin',      label:'Skin, hair & acne changes', icon:'spark'},
+    {id:'mood',      label:'Mood, energy & mental health', icon:'sun'},
+    {id:'new',       label:'Just diagnosed, still learning', icon:'book'}
+  ];
+
+  var DIAGNOSIS = [
+    {id:'recent',  label:'Recently diagnosed'},
+    {id:'ongoing', label:'Diagnosed a while ago, still figuring it out'},
+    {id:'suspect', label:'Suspect PCOS, not yet diagnosed'},
+    {id:'years',   label:'Managing it for years'}
+  ];
+
+  var GOALS = [
+    {id:'cycle',     label:'Regulating my cycle'},
+    {id:'fertility', label:'Supporting fertility'},
+    {id:'metabolic', label:'Managing weight & insulin resistance'},
+    {id:'skin',      label:'Understanding skin & hair changes'},
+    {id:'mood',      label:'Improving energy & mood'}
+  ];
+
+  var CARE = [
+    {id:'yes',         label:'Yes, regularly'},
+    {id:'occasionally',label:'Occasionally'},
+    {id:'not_now',     label:'Not right now'},
+    {id:'starting',    label:'Looking for a starting point'}
+  ];
+
+  var TRACKS = {
+    cycle:     {title:'Cycle & Hormone Balance', phase:'full',
+      bullets:['Understanding your cycle patterns','Which hormone markers actually matter','Small daily shifts that support regularity']},
+    fertility: {title:'Fertility Support', phase:'crescent',
+      bullets:['Fertility signs worth tracking','Working with — not against — irregular ovulation','Questions worth asking a fertility specialist']},
+    metabolic: {title:'Metabolic & Insulin Health', phase:'quarter',
+      bullets:['How insulin resistance shows up with PCOS','Food & movement that doesn\u2019t feel like punishment','Labs worth requesting']},
+    skin:      {title:'Skin & Hair Wellness', phase:'gibbous',
+      bullets:['Why PCOS affects skin & hair this way','Topical vs. root-cause approaches','What\u2019s worth trying first']},
+    mood:      {title:'Mood & Energy Restoration', phase:'lastquarter',
+      bullets:['The hormone\u2013mood connection, explained simply','Rebuilding energy without overhauling your life','When to loop in a mental health professional']}
+  };
+
+  var ICONS = {
+    cycle:'<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/></svg>',
+    sprout:'<svg viewBox="0 0 24 24"><path d="M12 22v-8"/><path d="M12 14C7 14 4 10 4 6c4 0 8 3 8 8Z"/><path d="M12 14c5 0 8-4 8-8-4 0-8 3-8 8Z"/></svg>',
+    drop:'<svg viewBox="0 0 24 24"><path d="M12 2c4 5 7 8.5 7 12a7 7 0 1 1-14 0c0-3.5 3-7 7-12Z"/></svg>',
+    spark:'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg>',
+    sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>',
+    book:'<svg viewBox="0 0 24 24"><path d="M4 5c3 0 6 1 8 3 2-2 5-3 8-3v13c-3 0-6 1-8 3-2-2-5-3-8-3V5Z"/><path d="M12 8v13"/></svg>',
+    chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'
+  };
+
+  var order = ['welcome','concern','validation','diagnosis','goal','care','reveal','email','success'];
+  var stepScreens = ['concern','diagnosis','goal','care']; // the 4 counted steps
+
+  var state = { i:0, answers:{ concern:null, diagnosis:null, goal:null, care:null, email:null } };
+
+  var stage = document.getElementById('stage');
+  var topbar = document.getElementById('topbar');
+
+  function esc(s){ return s; }
+
+  function renderTopbar(){
+    var name = order[state.i];
+    topbar.innerHTML = '';
+    var showBack = stepScreens.indexOf(name) > -1 || name==='reveal' ? false : false;
+    // back button only on question screens (not first one, not welcome/reveal/email/success)
+    var qIndex = stepScreens.indexOf(name);
+    if(qIndex > 0){
+      var b = document.createElement('button');
+      b.className='backbtn'; b.innerHTML = ICONS.chevron;
+      b.onclick = function(){ goBack(); };
+      topbar.appendChild(b);
+    } else {
+      var spacerBtn = document.createElement('div');
+      spacerBtn.style.width='30px'; spacerBtn.style.flex='none';
+      topbar.appendChild(spacerBtn);
+    }
+
+    if(qIndex > -1){
+      var prog = document.createElement('div');
+      prog.className='progress';
+      for(var s=0;s<stepScreens.length;s++){
+        var seg = document.createElement('div');
+        seg.className='seg' + (s < qIndex+1 ? ' done':'');
+        var inner = document.createElement('i');
+        seg.appendChild(inner);
+        prog.appendChild(seg);
+      }
+      topbar.appendChild(prog);
+    } else {
+      var fill = document.createElement('div'); fill.style.flex='1';
+      topbar.appendChild(fill);
+    }
+
+    var skippable = (name==='diagnosis' || name==='care');
+    if(skippable){
+      var sk = document.createElement('button');
+      sk.className='skiplink'; sk.textContent='Skip';
+      sk.onclick = function(){ recordAndAdvance(name, null); };
+      topbar.appendChild(sk);
+    } else if(qIndex > -1){
+      var pad = document.createElement('div'); pad.style.width='30px'; pad.style.flex='none';
+      topbar.appendChild(pad);
+    }
+  }
+
+  function goTo(i){
+    state.i = i;
+    renderTopbar();
+    renderScreen();
+  }
+  function next(){ goTo(state.i+1); }
+  function goBack(){ if(state.i>0) goTo(state.i-1); }
+
+  function recordAndAdvance(field, value){
+    state.answers[field] = value;
+    next();
+  }
+
+  function optionCard(opt, field, iconKey){
+    var el = document.createElement('button');
+    el.className = 'opt';
+    el.type='button';
+    var iconHtml = iconKey ? '<span class="ic">'+ICONS[iconKey]+'</span>' : '';
+    el.innerHTML = iconHtml + '<span class="label"></span>';
+    el.querySelector('.label').textContent = opt.label;
+    el.onclick = function(){
+      if(el.classList.contains('locked')) return;
+      var parent = el.parentElement;
+      Array.prototype.forEach.call(parent.children, function(c){ c.classList.add('locked'); });
+      el.classList.add('selected');
+      setTimeout(function(){ recordAndAdvance(field, opt.id); }, 320);
+    };
+    return el;
+  }
+
+  function screenWrap(cls){
+    var d = document.createElement('div');
+    d.className = 'screen ' + cls;
+    return d;
+  }
+
+  function renderScreen(){
+    stage.innerHTML = '';
+    var name = order[state.i];
+    var el;
+
+    if(name==='welcome'){
+      el = screenWrap('welcome');
+      el.innerHTML =
+        '<div class="wordmark"><div class="moonwrap"><div class="moon quarter" style="width:26px;height:26px;"><i></i></div></div><span>Phases</span></div>'+
+        '<h1>Let\u2019s find your PCOS care track.</h1>'+
+        '<p>A few quick questions — no diagnoses, no judgment. Just enough for us to point you toward what\u2019s actually useful for you.</p>'+
+        '<div class="meta-row">'+
+          '<div class="m"><span class="dot"></span>About 60 seconds</div>'+
+          '<div class="m"><span class="dot"></span>4 short questions</div>'+
+        '</div>'+
+        '<div class="spacer"></div>'+
+        '<button class="btn" id="startBtn">Let\u2019s begin</button>';
+      stage.appendChild(el);
+      el.querySelector('#startBtn').onclick = next;
+      return;
+    }
+
+    if(name==='concern'){
+      el = screenWrap('question');
+      el.innerHTML = '<div class="eyebrow">Step 1 of 4</div><h1 class="q">What brought you here today?</h1><p class="sub">Pick the one that\u2019s closest.</p>';
+      var opts = document.createElement('div'); opts.className='options';
+      CONCERNS.forEach(function(o){ opts.appendChild(optionCard(o,'concern',o.icon)); });
+      el.appendChild(opts);
+      stage.appendChild(el);
+      return;
+    }
+
+    if(name==='validation'){
+      el = screenWrap('infoscreen');
+      el.innerHTML =
+        '<div class="glow"></div>'+
+        '<h2>PCOS looks different for everyone.</h2>'+
+        '<p>Some deal with cycles, others with fertility, weight, skin, or mood — often more than one at once. There\u2019s no \u201ctypical\u201d case, so we won\u2019t treat you like one.</p>'+
+        '<button class="btn" id="contBtn" style="width:auto; padding:14px 34px;">Continue</button>';
+      stage.appendChild(el);
+      el.querySelector('#contBtn').onclick = next;
+      return;
+    }
+
+    if(name==='diagnosis'){
+      el = screenWrap('question');
+      el.innerHTML = '<div class="eyebrow">Step 2 of 4</div><h1 class="q">Where are you in your journey?</h1><p class="sub">This just helps us pitch things at the right level.</p>';
+      var opts2 = document.createElement('div'); opts2.className='options';
+      DIAGNOSIS.forEach(function(o){ opts2.appendChild(optionCard(o,'diagnosis')); });
+      el.appendChild(opts2);
+      stage.appendChild(el);
+      return;
+    }
+
+    if(name==='goal'){
+      el = screenWrap('question');
+      el.innerHTML = '<div class="eyebrow">Step 3 of 4</div><h1 class="q">If this workshop helped with one thing first, what matters most?</h1>';
+      var opts3 = document.createElement('div'); opts3.className='options';
+      GOALS.forEach(function(o){ opts3.appendChild(optionCard(o,'goal')); });
+      el.appendChild(opts3);
+      stage.appendChild(el);
+      return;
+    }
+
+    if(name==='care'){
+      el = screenWrap('question');
+      el.innerHTML = '<div class="eyebrow">Step 4 of 4</div><h1 class="q">Are you currently working with a doctor on this?</h1><p class="sub">This workshop supports your care — it doesn\u2019t replace it.</p>';
+      var opts4 = document.createElement('div'); opts4.className='options';
+      CARE.forEach(function(o){ opts4.appendChild(optionCard(o,'care')); });
+      el.appendChild(opts4);
+      stage.appendChild(el);
+      return;
+    }
+
+    if(name==='reveal'){
+      renderReveal();
+      return;
+    }
+
+    if(name==='email'){
+      var track = TRACKS[state.answers.goal] || TRACKS.cycle;
+      el = screenWrap('question');
+      el.innerHTML =
+        '<div class="eyebrow">Last step</div>'+
+        '<h1 class="q">Where should we send it?</h1>'+
+        '<p class="sub">Your '+track.title+' guide, plus the workshop invite.</p>'+
+        '<div class="field"><label>Email</label><input type="email" id="emailInput" placeholder="you@email.com" autocomplete="email"></div>'+
+        '<div class="spacer"></div>'+
+        '<button class="btn" id="reserveBtn">Reserve my spot</button>'+
+        '<button class="textlink" id="skipEmail">Skip for now, I\u2019ll browse first</button>';
+      stage.appendChild(el);
+      el.querySelector('#reserveBtn').onclick = function(){
+        var v = el.querySelector('#emailInput').value.trim();
+        state.answers.email = v || null;
+        next();
+      };
+      el.querySelector('#skipEmail').onclick = function(){ state.answers.email=null; next(); };
+      return;
+    }
+
+    if(name==='success'){
+      var track2 = TRACKS[state.answers.goal] || TRACKS.cycle;
+      el = screenWrap('successwrap');
+      var moon = document.createElement('div');
+      moon.className = 'moon lg ' + track2.phase;
+      moon.innerHTML = '<i></i>';
+      var msg = state.answers.email
+        ? 'Check <strong>'+state.answers.email+'</strong> for your '+track2.title+' resources — and your workshop invite.'
+        : 'Explore at your own pace — your '+track2.title+' focus is saved for when you\u2019re ready.';
+      el.appendChild(moon);
+      var h = document.createElement('h1'); h.textContent = state.answers.email ? 'You\u2019re in.' : 'Good to have you.';
+      var p = document.createElement('p'); p.innerHTML = msg;
+      el.appendChild(h); el.appendChild(p);
+      var again = document.createElement('div'); again.className='startover'; again.textContent='Start over';
+      again.onclick = function(){ state.answers={concern:null,diagnosis:null,goal:null,care:null,email:null}; goTo(0); };
+      el.appendChild(again);
+      stage.appendChild(el);
+      return;
+    }
+  }
+
+  function renderReveal(){
+    var track = TRACKS[state.answers.goal] || TRACKS.cycle;
+    var concern = CONCERNS.filter(function(c){return c.id===state.answers.concern;})[0];
+
+    var diagFoundational = (state.answers.diagnosis==='recent' || state.answers.diagnosis==='suspect');
+    var diagBullet = diagFoundational ? 'PCOS basics, explained in plain language' : 'Beyond the basics — fine-tuning what already works';
+    var careBonus = (state.answers.care==='not_now' || state.answers.care==='starting')
+      ? 'How to start the conversation with a doctor who actually listens' : null;
+
+    var bulletList = [diagBullet, track.bullets[0], track.bullets[1], careBonus || track.bullets[2]];
+
+    var el = screenWrap('reveal');
+    el.innerHTML =
+      '<div class="stagewrap"><div class="haze"></div><div class="moon lg '+track.phase+'" id="revealMoon"><i></i></div></div>'+
+      (concern ? '<div class="concernline">You told us '+concern.label.toLowerCase()+' is on your mind.</div>' : '')+
+      '<h1 class="tt">Your focus: '+track.title+'</h1>'+
+      '<div class="bullets" id="bulletWrap"></div>'+
+      '<button class="btn" id="saveSpot">Save my spot</button>';
+    stage.appendChild(el);
+
+    var bw = el.querySelector('#bulletWrap');
+    bulletList.forEach(function(txt){
+      var b = document.createElement('div'); b.className='b';
+      b.innerHTML = '<span class="dot2"></span><span></span>';
+      b.querySelector('span:last-child').textContent = txt;
+      bw.appendChild(b);
+    });
+
+    el.querySelector('#saveSpot').onclick = function(){ next(); };
+
+    spawnMotes(el.querySelector('.stagewrap'));
+  }
+
+  function spawnMotes(container){
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    for(var k=0;k<10;k++){
+      (function(k){
+        setTimeout(function(){
+          var m = document.createElement('div');
+          m.className='mote';
+          var size = 3 + Math.random()*4;
+          m.style.width = size+'px'; m.style.height = size+'px';
+          m.style.left = (35 + Math.random()*30) + '%';
+          m.style.bottom = '40px';
+          m.style.animation = 'floatup ' + (1.6 + Math.random()*1.2) + 's ease-out forwards';
+          container.appendChild(m);
+          setTimeout(function(){ m.remove(); }, 3200);
+        }, k*140);
+      })(k);
+    }
+  }
+
+  // init
+  goTo(0);
+
+  // best-effort SW registration; safe no-op if unsupported/sandboxed
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    });
+  }
+})();
+</script>
+</body>
+</html>
