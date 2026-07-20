@@ -1,66 +1,38 @@
-# Phases — PCOS Workshop Intake (PWA)
+# Phases — PWA
 
-A short, warm intake flow that routes attendees to a personalized PCOS
-workshop track. Built as a installable Progressive Web App: one self-contained
-`index.html`, a web manifest, a service worker for offline shell caching, and
-two icons.
-
-## Run it locally
-PWAs need to be served over `http(s)://` or `localhost` — opening the file
-directly (`file://`) will show the flow, but the service worker and
-install prompt won't activate. Any static server works:
-
-```bash
-npx serve .
-# or
-python3 -m http.server 8080
-```
-
-Then open the printed local URL on desktop, or on your phone if it's on the
-same network.
-
-## Deploy it for real
-It's static files, no build step — drag-and-drop onto Netlify/Vercel, or
-push to GitHub Pages (steps below). Once it's served over HTTPS,
-"Add to Home Screen" (iOS Safari) or the install icon (Android Chrome /
-desktop Chrome) will work.
-
-## Deploy on GitHub Pages
-This project already uses relative paths everywhere, so it works fine at
-a project subpath like `username.github.io/repo-name/` — no path edits
-needed.
-
-1. Create a new repo on GitHub (or reuse one), then from this folder:
-   ```bash
-   git init
-   git add .
-   git commit -m "Phases: PCOS workshop intake PWA"
-   git branch -M main
-   git remote add origin https://github.com/<you>/<repo-name>.git
-   git push -u origin main
-   ```
-2. On GitHub: **Settings → Pages → Build and deployment → Source** →
-   `Deploy from a branch` → branch `main`, folder `/ (root)` → Save.
-3. Wait ~1 minute, then open `https://<you>.github.io/<repo-name>/`.
-4. The included `.nojekyll` file tells GitHub Pages to serve everything
-   as-is (skip Jekyll processing) — keep it in the repo root, it's an
-   empty file and easy to lose track of since it's invisible in most
-   file pickers (`ls -a` to confirm it's there).
-
-If you'd rather publish at the bare `username.github.io` root (no
-subpath), push these same files to a repo literally named
-`<you>.github.io` instead — same steps, no config changes needed either
-way since everything is relative.
+A small, installable web app (works offline once loaded, can be added to a phone's home screen).
 
 ## Files
-- `index.html` — the entire flow (markup, styles, logic)
-- `manifest.json` — app name, icons, theme color, standalone display
-- `sw.js` — minimal cache-first service worker for offline shell access
-- `icons/` — 192px and 512px app icons
+- `index.html` — the app
+- `manifest.json` — PWA metadata (name, icons, colors)
+- `sw.js` — service worker (caches the app so it works offline)
+- `icons/` — app icons
+- `.nojekyll` — tells GitHub Pages to serve files as-is
 
-## Data & wiring
-The demo keeps answers in memory only — nothing is sent anywhere. To make
-this a real intake, wire the `email` screen's submit handler
-(`#reserveBtn` in `index.html`) to your ESP/CRM or a serverless endpoint, and
-consider POSTing the full `answers` object for segmentation
-(concern, diagnosis stage, goal/track, care context).
+## Deploy on GitHub Pages
+
+1. Create a new repository on GitHub (public or private both work).
+2. Upload all the files in this folder to the repo, keeping the `icons/` folder intact.
+   - Easiest: on the repo page, "Add file" → "Upload files" → drag in everything, including `.nojekyll` (GitHub may hide it — if you don't see it in the upload list, use `git` instead, see below).
+3. Go to **Settings → Pages**.
+4. Under **Build and deployment**, set **Source** to "Deploy from a branch," branch `main`, folder `/ (root)`. Save.
+5. Wait about a minute, then visit `https://<your-username>.github.io/<repo-name>/`.
+
+### Using git instead of drag-and-drop (recommended — handles the .nojekyll file reliably)
+```
+git init
+git add -A
+git commit -m "Add Phases PWA"
+git branch -M main
+git remote add origin https://github.com/<your-username>/<repo-name>.git
+git push -u origin main
+```
+Then do steps 3–5 above.
+
+## Installing it as an app
+- **iPhone (Safari):** open the URL → Share → "Add to Home Screen."
+- **Android (Chrome):** open the URL → ⋮ menu → "Install app" (or "Add to Home screen").
+
+## Notes
+- Everything runs client-side — no backend, no data leaves the device except the optional email field, which currently isn't sent anywhere (there's no server). If you want submissions to go somewhere, you'll need to add a form endpoint (e.g. Formspree, a Google Form, or your own backend) and wire up the "Reserve my spot" button in `index.html`.
+- If you rename the repo or move the site under a different path, the relative paths in `manifest.json`, `sw.js`, and `index.html` will still work — nothing is hardcoded to a specific URL.

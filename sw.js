@@ -1,6 +1,5 @@
-// Phases — minimal offline-shell service worker
-var CACHE = 'phases-v1';
-var SHELL = [
+const CACHE_NAME = 'phases-cache-v1';
+const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
@@ -10,29 +9,37 @@ var SHELL = [
 
 self.addEventListener('install', function(event){
   event.waitUntil(
-    caches.open(CACHE).then(function(cache){ return cache.addAll(SHELL); })
+    caches.open(CACHE_NAME)
+      .then(function(cache){ return cache.addAll(APP_SHELL); })
+      .then(function(){ return self.skipWaiting(); })
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', function(event){
   event.waitUntil(
     caches.keys().then(function(keys){
-      return Promise.all(keys.filter(function(k){ return k !== CACHE; }).map(function(k){ return caches.delete(k); }));
-    })
+      return Promise.all(keys.filter(function(k){ return k !== CACHE_NAME; })
+        .map(function(k){ return caches.delete(k); }));
+    }).then(function(){ return self.clients.claim(); })
   );
-  self.clients.claim();
 });
 
+// Same-origin: stale-while-revalidate. Cross-origin (Google Fonts, etc.): pass through untouched.
 self.addEventListener('fetch', function(event){
   if(event.request.method !== 'GET') return;
+  var url = new URL(event.request.url);
+  if(url.origin !== self.location.origin) return;
+
   event.respondWith(
     caches.match(event.request).then(function(cached){
-      return cached || fetch(event.request).then(function(resp){
-        var copy = resp.clone();
-        caches.open(CACHE).then(function(cache){ cache.put(event.request, copy); });
-        return resp;
+      var network = fetch(event.request).then(function(response){
+        if(response && response.status === 200){
+          var copy = response.clone();
+          caches.open(CACHE_NAME).then(function(cache){ cache.put(event.request, copy); });
+        }
+        return response;
       }).catch(function(){ return cached; });
+      return cached || network;
     })
   );
 });

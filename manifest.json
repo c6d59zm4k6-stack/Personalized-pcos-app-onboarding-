@@ -1,17 +1,15 @@
 {
-  "name": "Phases \u2014 PCOS Workshop Intake",
+  "name": "Phases — Find Your PCOS Path",
   "short_name": "Phases",
-  "description": "A short, warm intake that routes you to your personalized PCOS workshop track.",
+  "description": "A short, guided intake that routes you to a personalized PCOS care track.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#201329",
-  "theme_color": "#201329",
+  "background_color": "#F4EEE1",
+  "theme_color": "#F4EEE1",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
