@@ -82,21 +82,31 @@
   @media (prefers-reduced-motion: reduce){ .burst-spark{display:none;} }
 
   .cardgrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .card{ border-radius:18px; padding:14px; min-height:92px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; position:relative; overflow:hidden; border:none; text-align:left; transition:transform .15s ease; -webkit-user-select:none; user-select:none; }
+  .cardgrid.list{ grid-template-columns:1fr; gap:8px; }
+  .card{ border-radius:18px; padding:16px; min-height:100px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; position:relative; overflow:hidden; border:none; text-align:left; transition:transform .15s ease; -webkit-user-select:none; user-select:none; }
   .card:active{ transform:scale(.96); }
-  .card .cicon{ width:32px;height:32px;border-radius:9px;background:rgba(59,52,44,0.08);display:flex;align-items:center;justify-content:center;position:relative; }
-  .card .cicon svg{ width:16px;height:16px;fill:var(--charcoal); }
-  .card .clabel{ font-family:var(--sans); font-weight:700; font-size:13.5px; color:var(--charcoal); line-height:1.2; }
-  .card .badge{ position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--charcoal);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);transition:all .18s ease; }
-  .card .badge svg{ width:12px;height:12px;stroke:var(--paper);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round; }
+  .card .cicon{ width:38px;height:38px;border-radius:10px;background:rgba(59,52,44,0.08);display:flex;align-items:center;justify-content:center;position:relative; }
+  .card .cicon svg{ width:19px;height:19px;fill:var(--charcoal); }
+  .card .clabel{ font-family:var(--sans); font-weight:800; font-size:16px; color:var(--charcoal); line-height:1.25; }
+  .card .badge{ position:absolute;top:9px;right:9px;width:24px;height:24px;border-radius:50%;background:var(--charcoal);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);transition:all .18s ease; }
+  .card .badge svg{ width:13px;height:13px;stroke:var(--paper);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round; }
   .card.selected .badge{ opacity:1;transform:scale(1); }
   .card.selected{ box-shadow:0 0 0 2.5px var(--charcoal); }
   .card.locked{ pointer-events:none; }
+  .card.row{ flex-direction:row; align-items:center; justify-content:flex-start; gap:12px; min-height:0; padding:12px 14px; border-radius:16px; }
+  .card.row .cicon{ width:32px; height:32px; border-radius:9px; flex:none; }
+  .card.row .cicon svg{ width:16px; height:16px; }
+  .card.row .clabel{ font-size:15.5px; line-height:1.2; flex:1; }
+  .card.row .badge{ position:static; margin-left:auto; width:22px; height:22px; flex:none; }
+  .card.row .badge svg{ width:12px; height:12px; }
+  .card.bignum{ align-items:center; justify-content:center; text-align:center; min-height:100px; padding:10px 8px; }
+  .card.bignum .clabel{ font-family:var(--serif); font-weight:800; font-size:30px; line-height:1.06; width:100%; }
   .c-coral{background:var(--coral-pastel);} .c-moss{background:var(--mint-pastel);} .c-berry{background:var(--pink-pastel);}
   .c-sky{background:var(--sky-pastel);} .c-gold{background:var(--gold-pastel);} .c-ink{background:var(--lavender-pastel);}
 
-  .insightcard{ background:var(--paper); border-left:4px solid var(--terracotta); border-radius:14px; padding:14px 15px 14px 13px; margin:2px 0 16px; box-shadow:0 4px 14px rgba(59,52,44,.06); animation:fadein .35s ease both; }
-  .insightcard p{ font-size:13.5px; font-weight:600; line-height:1.5; color:var(--charcoal); margin:0; text-align:center; }
+  .insightcard{ background:var(--paper); border-left:4px solid var(--terracotta); border-radius:14px; padding:18px 16px; margin:30px 0 16px; box-shadow:0 4px 14px rgba(59,52,44,.06); animation:fadein .35s ease both; }
+  .insightcard p{ font-size:19px; font-weight:800; line-height:1.38; color:var(--charcoal); margin:0; text-align:center; }
+  .btn.continueBtn{ margin-top:8px; }
   @keyframes fadein{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
 
   .trustline{ display:flex; align-items:center; justify-content:center; gap:6px; font-size:11.5px; font-weight:700; color:var(--charcoal); opacity:.5; margin-top:10px; }
@@ -108,10 +118,10 @@
   .personatag{ display:inline-block; font-family:var(--sans); font-weight:800; font-size:10px; letter-spacing:.04em; text-transform:uppercase; color:var(--paper); padding:5px 10px; border-radius:999px; margin-bottom:8px; }
   .persona-a .personatag{ background:var(--terracotta); }
   .persona-b .personatag{ background:var(--olive); }
-  .personarow{ display:flex; align-items:center; gap:7px; padding:6px 2px; font-size:11.5px; font-weight:600; color:var(--charcoal); text-align:left; border-bottom:1px solid rgba(59,52,44,0.08); }
+  .personarow{ display:flex; align-items:center; gap:8px; padding:7px 2px; font-size:13px; font-weight:700; color:var(--charcoal); text-align:left; border-bottom:1px solid rgba(59,52,44,0.08); }
   .personarow:last-child{ border-bottom:none; }
-  .personarow .picon{ width:20px; height:20px; border-radius:50%; background:rgba(59,52,44,0.08); display:flex; align-items:center; justify-content:center; flex:none; }
-  .personarow .picon svg{ width:11px; height:11px; fill:var(--charcoal); }
+  .personarow .picon{ width:23px; height:23px; border-radius:50%; background:rgba(59,52,44,0.08); display:flex; align-items:center; justify-content:center; flex:none; }
+  .personarow .picon svg{ width:12px; height:12px; fill:var(--charcoal); }
 
   .btn{ display:flex; align-items:center; justify-content:center; width:100%; padding:15px; background:var(--charcoal); color:var(--paper); border:none; border-radius:999px; font-family:var(--sans); font-weight:700; font-size:15px; cursor:pointer; transition:transform .15s ease,opacity .15s ease; }
   .btn:active{ transform:scale(.98); }
@@ -124,13 +134,13 @@
   .field input::placeholder{ color:rgba(59,52,44,0.4); }
 
   .tfrow{ display:flex; gap:12px; margin:8px 0 4px; }
-  .tfbtn{ flex:1; padding:16px 10px; border-radius:16px; border:2px solid rgba(59,52,44,0.14); background:var(--paper); font-family:var(--sans); font-weight:700; font-size:15px; color:var(--charcoal); cursor:pointer; transition:transform .15s ease, border-color .15s ease, background .15s ease; position:relative; }
+  .tfbtn{ flex:1; padding:20px 10px; min-height:100px; display:flex; align-items:center; justify-content:center; border-radius:18px; border:2px solid rgba(59,52,44,0.14); background:var(--paper); font-family:var(--serif); font-weight:800; font-size:22px; color:var(--charcoal); cursor:pointer; transition:transform .15s ease, border-color .15s ease, background .15s ease; position:relative; }
   .tfbtn:active{ transform:scale(.96); }
   .tfbtn.picked{ border-color:var(--terracotta); background:var(--coral-pastel); }
   .tfbtn.locked{ pointer-events:none; }
 
-  .guessval{ font-family:var(--serif); font-weight:700; font-size:29px; color:var(--charcoal); text-align:center; margin:2px 0 4px; }
-  .guesssub{ text-align:center; font-size:12px; font-weight:600; color:var(--charcoal-dim); margin-bottom:14px; }
+  .guessval{ font-family:var(--serif); font-weight:700; font-size:34px; color:var(--charcoal); text-align:center; margin:2px 0 4px; }
+  .guesssub{ text-align:center; font-size:13.5px; font-weight:600; color:var(--charcoal-dim); margin-bottom:14px; }
   input[type=range]{ -webkit-appearance:none; width:100%; height:7px; border-radius:999px; background:rgba(59,52,44,0.14); margin:8px 0 18px; }
   input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:26px; height:26px; border-radius:50%; background:var(--charcoal); border:4px solid var(--paper); box-shadow:0 2px 8px rgba(0,0,0,.25); cursor:pointer; }
   input[type=range]::-moz-range-thumb{ width:26px; height:26px; border-radius:50%; background:var(--charcoal); border:4px solid var(--paper); cursor:pointer; }
@@ -281,15 +291,15 @@
   var CHEVRON = '<svg viewBox="0 0 24 24" fill="none" stroke="#3B342C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
 
   var AGE = [
-    {id:'under20',  label:'Under 20', c:'coral', payoff:'Got it — we\u2019ll keep things relevant for where you are.'},
-    {id:'twenties', label:'20s',      c:'moss',  payoff:'Got it — we\u2019ll keep things relevant for your 20s.'},
-    {id:'thirties', label:'30s',      c:'berry', payoff:'Got it — we\u2019ll keep things relevant for your 30s.'},
-    {id:'fortyplus',label:'40+',      c:'sky',   payoff:'Got it — we\u2019ll keep things relevant for your 40s and beyond.'}
+    {id:'under20',  label:'Under 20', c:'coral', payoff:'Got it. This is made for you.'},
+    {id:'twenties', label:'20s',      c:'moss',  payoff:'Got it. This is made for your 20s.'},
+    {id:'thirties', label:'30s',      c:'berry', payoff:'Got it. This is made for your 30s.'},
+    {id:'fortyplus',label:'40+',      c:'sky',   payoff:'Got it. This is made for 40 and up.'}
   ];
   var KNOWLEDGE = [
-    {id:'nothing', label:'Nothing yet',     icon:'spark', c:'coral', payoff:'Nothing yet? We\u2019ll start from the basics — no jargon.'},
-    {id:'some',    label:'Some basics',     icon:'book',  c:'moss',  payoff:'Good foundation — we\u2019ll build on what you know.'},
-    {id:'lots',    label:'A lot already',   icon:'sun',   c:'berry', payoff:'Then we\u2019ll skip the 101 and go straight to what\u2019s useful.'}
+    {id:'nothing', label:'Nothing yet',     icon:'spark', c:'coral', payoff:'No problem. We\u2019ll start from zero.'},
+    {id:'some',    label:'Some basics',     icon:'book',  c:'moss',  payoff:'Good. We\u2019ll build on what you know.'},
+    {id:'lots',    label:'A lot already',   icon:'sun',   c:'berry', payoff:'Great. We\u2019ll skip the basics.'}
   ];
   var SYMPTOMS = [
     {id:'cycles',    label:'Irregular cycles',    icon:'cycle', c:'coral'},
@@ -308,27 +318,27 @@
     {id:'mood',      label:'Mood & energy',     phase:'lastquarter', c:'sky'}
   ];
   var FERTILITY_TIME = [
-    {id:'trying',   label:'Trying now',        icon:'heart',   c:'berry', payoff:'We\u2019ll flag fertility-specialist resources you can act on now.'},
-    {id:'soon',     label:'Next year or two',  icon:'calendar',c:'coral', payoff:'We\u2019ll flag fertility-specialist resources for when you\u2019re ready.'},
-    {id:'learning', label:'Just learning',     icon:'book',    c:'sky',   payoff:'We\u2019ll keep the fertility content foundational for now.'}
+    {id:'trying',   label:'Trying now',        icon:'heart',   c:'berry', payoff:'We\u2019ll show fertility help right away.'},
+    {id:'soon',     label:'Next year or two',  icon:'calendar',c:'coral', payoff:'We\u2019ll save that for later.'},
+    {id:'learning', label:'Just learning',     icon:'book',    c:'sky',   payoff:'We\u2019ll keep it simple for now.'}
   ];
   var DOCTOR = [
-    {id:'yes',          label:'Yes, regularly',       icon:'check',   c:'moss',  payoff:'Great — we\u2019ll complement what your doctor\u2019s already doing.'},
-    {id:'occasionally', label:'Sometimes',            icon:'clock',   c:'gold',  payoff:'We\u2019ll help you make the most of those visits.'},
-    {id:'not_now',       label:'Not right now',        icon:'shield',  c:'ink',   payoff:'No pressure — we\u2019ll add how to start that conversation when you\u2019re ready.'},
-    {id:'starting',      label:'Looking to start',     icon:'compass', c:'berry', payoff:'We\u2019ll help you find the right questions to start with.'}
+    {id:'yes',          label:'Yes, regularly',       icon:'check',   c:'moss',  payoff:'Great. We\u2019ll add to your care.'},
+    {id:'occasionally', label:'Sometimes',            icon:'clock',   c:'gold',  payoff:'We\u2019ll help you use those visits well.'},
+    {id:'not_now',       label:'Not right now',        icon:'shield',  c:'ink',   payoff:'No pressure. We\u2019ll help you get ready.'},
+    {id:'starting',      label:'Looking to start',     icon:'compass', c:'berry', payoff:'We\u2019ll help you find good questions to ask.'}
   ];
   var TRACKS = {
     cycle:     {title:'Cycle & Hormone Balance', phase:'full',
-      fact:'Your cycle doesn\u2019t have to be 28 days to be healthy — up to 45 days can still mean regular ovulation with PCOS.'},
+      fact:'A long cycle can still be a healthy one.'},
     fertility: {title:'Fertility Support', phase:'crescent',
-      fact:'Drugstore ovulation tests often misread PCOS due to naturally higher LH levels — a specialist has better tools.'},
+      fact:'Home tests can get PCOS wrong. Specialists know better.'},
     metabolic: {title:'Metabolic & Insulin Health', phase:'quarter',
-      fact:'Some people with lean PCOS have real insulin resistance despite a \u201cnormal\u201d weight — the scale isn\u2019t the full picture.'},
+      fact:'You can have insulin issues at any weight.'},
     skin:      {title:'Skin & Hair Wellness', phase:'gibbous',
-      fact:'PCOS acne usually shows along the jawline and chin, and often resists standard face-wash routines — because it\u2019s hormonal, not surface-level.'},
+      fact:'PCOS acne often shows on the jaw and chin. It\u2019s hormonal.'},
     mood:      {title:'Mood & Energy Restoration', phase:'lastquarter',
-      fact:'The mood swings and anxiety in PCOS are tied to real hormonal and blood-sugar shifts — not a character flaw.'}
+      fact:'Mood swings come from hormones. Not a character flaw.'}
   };
   var CRED = [
     {id:'medical',  label:'Real medical review',    icon:'check',  c:'moss'},
@@ -400,41 +410,48 @@
   function firstSymptom(){ return SYMPTOMS.filter(function(s){ return (state.answers.symptoms||[]).indexOf(s.id)>-1; })[0]; }
 
   function revealInline(el, payoffText){
+    var oldInsight = el.querySelector('.insightcard'); if(oldInsight) oldInsight.remove();
+    var oldBtn = el.querySelector('.btn.continueBtn'); if(oldBtn) oldBtn.remove();
+    var oldSpacer = el.querySelector('.spacer'); if(oldSpacer) oldSpacer.remove();
+
     var wrap = document.createElement('div');
     wrap.innerHTML = '<div class="insightcard"><p></p></div>';
     wrap.querySelector('p').textContent = payoffText;
-    var btn = document.createElement('button'); btn.className='btn'; btn.textContent='Continue';
+    var btn = document.createElement('button'); btn.className='btn continueBtn'; btn.textContent='Continue';
     btn.onclick = next;
-    var oldSpacer = el.querySelector('.spacer');
-    if(oldSpacer) oldSpacer.remove();
     el.appendChild(wrap.firstChild);
     el.appendChild(btn);
   }
 
-  function iconCard(opt){
-    var el=document.createElement('button'); el.className='card c-'+opt.c; el.type='button';
-    var iconHtml = opt.phase
+  // Wires up a group of single-select cards so picking one, then a different one,
+  // swaps the selection and refreshes the reaction message instead of locking in place.
+  function wireSingleSelect(cardEls, opts, onPick){
+    var pickToken = 0;
+    cardEls.forEach(function(el, idx){
+      el.onclick = function(){
+        var opt = opts[idx];
+        cardEls.forEach(function(c){ c.classList.remove('selected'); });
+        el.classList.add('selected');
+        burst(el.querySelector('.badge'));
+        var myToken = ++pickToken;
+        setTimeout(function(){ if(myToken===pickToken) onPick(opt); }, 220);
+      };
+    });
+  }
+
+  function iconCard(opt, variant){
+    var extraClass = variant ? ' '+variant : '';
+    var el=document.createElement('button'); el.className='card'+extraClass+' c-'+opt.c; el.type='button';
+    var iconHtml = variant==='bignum' ? '' : (opt.phase
       ? '<span class="cicon"><div class="mhead '+opt.phase+'" style="position:relative;width:100%;height:100%;border-radius:8px;"><i class="msh"></i></div></span>'
-      : (opt.icon ? '<span class="cicon">'+ICONS[opt.icon]+'</span>' : '<span></span>');
+      : (opt.icon ? '<span class="cicon">'+ICONS[opt.icon]+'</span>' : '<span></span>'));
     el.innerHTML = iconHtml + '<span class="clabel"></span><span class="badge">'+CHECK+'</span>';
     el.querySelector('.clabel').textContent = opt.label;
     return el;
   }
 
-  function singleCard(opt, screenEl, onPick){
-    var el = iconCard(opt);
-    el.onclick=function(){
-      if(el.classList.contains('locked')) return;
-      Array.prototype.forEach.call(el.parentElement.children,function(c){c.classList.add('locked');});
-      el.classList.add('selected');
-      burst(el.querySelector('.badge'));
-      setTimeout(function(){ onPick(opt, screenEl); }, 280);
-    };
-    return el;
-  }
-
-  function multiCard(opt, selectedSet, onChange){
-    var el = iconCard(opt);
+  function multiCard(opt, selectedSet, onChange, variant){
+    var el = iconCard(opt, variant);
     el.onclick=function(){
       if(selectedSet.has(opt.id)){ selectedSet.delete(opt.id); el.classList.remove('selected'); }
       else { selectedSet.add(opt.id); el.classList.add('selected'); burst(el.querySelector('.badge')); }
@@ -470,9 +487,10 @@
 
     if(name==='age'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">How old are you?</h1>';
+      el.innerHTML = '<h1 class="q">How old are you?</h1>';
       var g=document.createElement('div'); g.className='cardgrid';
-      AGE.forEach(function(o){ g.appendChild(singleCard(o, el, function(opt){ state.answers.age=opt.id; revealInline(el,opt.payoff); })); });
+      var ageEls = AGE.map(function(o){ var c=iconCard(o,'bignum'); g.appendChild(c); return c; });
+      wireSingleSelect(ageEls, AGE, function(opt){ state.answers.age=opt.id; revealInline(el,opt.payoff); });
       el.appendChild(g);
       var sp0=document.createElement('div'); sp0.className='spacer'; el.appendChild(sp0);
       stage.appendChild(el);
@@ -481,9 +499,10 @@
 
     if(name==='knowledge'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">How much do you know about PCOS already?</h1>';
+      el.innerHTML = '<h1 class="q">How much do you know about PCOS already?</h1>';
       var g2=document.createElement('div'); g2.className='cardgrid';
-      KNOWLEDGE.forEach(function(o){ g2.appendChild(singleCard(o, el, function(opt){ state.answers.knowledge=opt.id; revealInline(el,opt.payoff); })); });
+      var knowledgeEls = KNOWLEDGE.map(function(o){ var c=iconCard(o); g2.appendChild(c); return c; });
+      wireSingleSelect(knowledgeEls, KNOWLEDGE, function(opt){ state.answers.knowledge=opt.id; revealInline(el,opt.payoff); });
       el.appendChild(g2);
       var sp1=document.createElement('div'); sp1.className='spacer'; el.appendChild(sp1);
       stage.appendChild(el);
@@ -492,19 +511,19 @@
 
     if(name==='symptoms'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">What\u2019s showing up for you?</h1><p class="sub">Choose all that apply.</p>';
-      var grid=document.createElement('div'); grid.className='cardgrid';
+      el.innerHTML = '<h1 class="q">What\u2019s showing up for you?</h1><p class="sub">Pick all that fit.</p>';
+      var grid=document.createElement('div'); grid.className='cardgrid list';
       var selectedSet = new Set(state.answers.symptoms||[]);
       var btn=document.createElement('button'); btn.className='btn disabled'; btn.textContent='Continue';
       function refresh(){ btn.className='btn'+(selectedSet.size?'':' disabled'); }
-      SYMPTOMS.forEach(function(o){ var c=multiCard(o,selectedSet,refresh); if(selectedSet.has(o.id)) c.classList.add('selected'); grid.appendChild(c); });
+      SYMPTOMS.forEach(function(o){ var c=multiCard(o,selectedSet,refresh,'row'); if(selectedSet.has(o.id)) c.classList.add('selected'); grid.appendChild(c); });
       el.appendChild(grid);
       var sp=document.createElement('div'); sp.className='spacer'; el.appendChild(sp);
       btn.onclick=function(){
         if(!selectedSet.size) return;
         state.answers.symptoms = Array.from(selectedSet);
         var labels = state.answers.symptoms.map(function(id){ return SYMPTOMS.filter(function(s){return s.id===id;})[0].label; });
-        var txt = labels.length>1 ? ('Got it. Prioritizing '+labels[0]+' + '+labels[1]+' in your plan.') : ('Got it. Prioritizing '+labels[0]+' in your plan.');
+        var txt = labels.length>1 ? ('We\u2019ll focus on '+labels[0]+' and '+labels[1]+'.') : ('We\u2019ll focus on '+labels[0]+'.');
         grid.querySelectorAll('.card').forEach(function(c){ c.classList.add('locked'); });
         btn.remove(); sp.remove();
         revealInline(el, txt);
@@ -517,15 +536,17 @@
       return;
     }
 
+
     if(name==='goal'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">Pick your first focus.</h1><p class="sub">One clear focus beats five half-measures.</p>';
+      el.innerHTML = '<h1 class="q">Pick your first focus.</h1><p class="sub">One focus works better than five.</p>';
       var g3=document.createElement('div'); g3.className='cardgrid';
-      GOALS.forEach(function(o){ g3.appendChild(singleCard(o, el, function(opt){
+      var goalEls = GOALS.map(function(o){ var c=iconCard(o); g3.appendChild(c); return c; });
+      wireSingleSelect(goalEls, GOALS, function(opt){
         state.answers.goal=opt.id;
         var track=TRACKS[opt.id];
         revealInline(el, 'Your track: '+track.title+'.');
-      })); });
+      });
       el.appendChild(g3);
       var sp2=document.createElement('div'); sp2.className='spacer'; el.appendChild(sp2);
       stage.appendChild(el);
@@ -534,9 +555,10 @@
 
     if(name==='fertility'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">Where are you with that?</h1>';
+      el.innerHTML = '<h1 class="q">Where are you with that?</h1>';
       var g4=document.createElement('div'); g4.className='cardgrid';
-      FERTILITY_TIME.forEach(function(o){ g4.appendChild(singleCard(o, el, function(opt){ state.answers.fertilityTime=opt.id; revealInline(el,opt.payoff); })); });
+      var fertEls = FERTILITY_TIME.map(function(o){ var c=iconCard(o); g4.appendChild(c); return c; });
+      wireSingleSelect(fertEls, FERTILITY_TIME, function(opt){ state.answers.fertilityTime=opt.id; revealInline(el,opt.payoff); });
       el.appendChild(g4);
       var sp3=document.createElement('div'); sp3.className='spacer'; el.appendChild(sp3);
       stage.appendChild(el);
@@ -545,9 +567,10 @@
 
     if(name==='doctor'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">Working with a doctor?</h1><p class="sub">This supports care — it doesn\u2019t replace it.</p>';
+      el.innerHTML = '<h1 class="q">Working with a doctor?</h1><p class="sub">This supports care — it doesn\u2019t replace it.</p>';
       var g5=document.createElement('div'); g5.className='cardgrid';
-      DOCTOR.forEach(function(o){ g5.appendChild(singleCard(o, el, function(opt){ state.answers.doctor=opt.id; revealInline(el,opt.payoff); })); });
+      var doctorEls = DOCTOR.map(function(o){ var c=iconCard(o); g5.appendChild(c); return c; });
+      wireSingleSelect(doctorEls, DOCTOR, function(opt){ state.answers.doctor=opt.id; revealInline(el,opt.payoff); });
       el.appendChild(g5);
       var sp4=document.createElement('div'); sp4.className='spacer'; el.appendChild(sp4);
       stage.appendChild(el);
@@ -556,7 +579,7 @@
 
     if(name==='quizA'){
       el = screenWrap('question');
-      el.innerHTML = '<h1 class="q">Can two people with PCOS have the exact same plan?</h1><p class="sub">See for yourself.</p>';
+      el.innerHTML = '<h1 class="q">Same diagnosis. Same plan?</h1>';
       var categories = [
         {icon:'cycle',   a:'Irregular periods',            b:'Regular periods'},
         {icon:'spark',   a:'Acne & oily skin',              b:'Clear skin'},
@@ -579,15 +602,35 @@
       grid.appendChild(personaCard('a','crescent','Anu','a'));
       grid.appendChild(personaCard('b','quarter','Kavya','b'));
       el.appendChild(grid);
-      revealInline(el, 'Different symptoms. Different root causes. Different needs. That\u2019s why one-size-fits-all advice rarely works. Personalized care works.');
+
+      var tfRow = document.createElement('div'); tfRow.className='tfrow';
+      tfRow.innerHTML = '<button class="tfbtn" data-v="yes">Yes</button><button class="tfbtn" data-v="no">No</button>';
+      el.appendChild(tfRow);
+      var spA=document.createElement('div'); spA.className='spacer'; el.appendChild(spA);
       stage.appendChild(el);
+
+      var pickTokenA = 0;
+      tfRow.querySelectorAll('.tfbtn').forEach(function(b){
+        b.onclick=function(){
+          var v = b.dataset.v;
+          tfRow.querySelectorAll('.tfbtn').forEach(function(x){ x.classList.remove('picked'); });
+          b.classList.add('picked');
+          burst(b);
+          var opener = v==='no' ? 'Exactly right.' : 'Actually, no.';
+          var myToken = ++pickTokenA;
+          setTimeout(function(){
+            if(myToken!==pickTokenA) return;
+            el.querySelector('h1.q').textContent = opener;
+            revealInline(el, 'Same PCOS. Different bodies. Different needs. Personal care works best.');
+          }, 220);
+        };
+      });
       return;
     }
 
     if(name==='quizB'){
       el = screenWrap('question');
       el.innerHTML =
-        mascot('crescent','sm') +
         '<h1 class="q">Quick guess.</h1>'+
         '<p class="sub">How many women do you think live with PCOS?</p>'+
         '<div class="guessval" id="guessVal">'+state.guess+' million</div>'+
@@ -610,63 +653,58 @@
         var tones=['coral','moss','berry','sky','gold','ink'];
         for(var k=0;k<12;k++){ var d=document.createElement('div'); d.className='dot c-'+tones[k%tones.length]; dots.appendChild(d); }
         el.insertBefore(dots, el.querySelector('.guesssub').nextSibling);
-        revealInline(el, 'That many people, affected in that many different ways, was never going to have one universal fix. Which is exactly why the rest of this is about finding yours.');
+        revealInline(el, '20 million people. All different. There\u2019s no one fix. Just yours.');
       };
       return;
     }
 
     if(name==='quizC'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">How important is diet &amp; exercise in managing PCOS?</h1>';
+      el.innerHTML = '<h1 class="q">How important is diet &amp; exercise in managing PCOS?</h1>';
       var opts=[
-        {id:'little', label:'Little', c:'ink', icon:'shield'},
-        {id:'guided', label:'Important, but needs guidance', c:'moss', icon:'compass'},
+        {id:'little', label:'A little', c:'ink', icon:'shield'},
+        {id:'guided', label:'Important, with guidance', c:'moss', icon:'compass'},
         {id:'very', label:'Very important', c:'coral', icon:'sun'},
-        {id:'only', label:'The only thing that matters', c:'gold', icon:'spark'}
+        {id:'only', label:'The only thing', c:'gold', icon:'spark'}
       ];
       var g=document.createElement('div'); g.className='cardgrid';
-      opts.forEach(function(o){
-        var card=document.createElement('button'); card.className='card c-'+o.c; card.type='button';
-        card.innerHTML='<span class="cicon">'+ICONS[o.icon]+'</span><span class="clabel"></span><span class="badge">'+CHECK+'</span>';
-        card.querySelector('.clabel').textContent=o.label;
-        card.onclick=function(){
-          if(card.classList.contains('locked')) return;
-          Array.prototype.forEach.call(card.parentElement.children,function(c){c.classList.add('locked');});
-          card.classList.add('selected');
-          burst(card.querySelector('.badge'));
-          state.dietPick=o.id;
-          var openers = {little:'It matters more than that.', guided:'That\u2019s about right.', very:'You\u2019re on the right track.', only:'It matters — but it\u2019s not the whole story.'};
-          el.querySelector('h1.q').textContent = openers[o.id];
-          var sp = el.querySelector('.spacer'); if(sp) sp.remove();
-          revealInline(el, 'Diet and movement genuinely help, but generic advice — eat this, avoid that — only works for some people, because PCOS looks different in every body. It has to be tailored, not copy-pasted.');
-        };
-        g.appendChild(card);
-      });
+      var dietEls = opts.map(function(o){ var c=iconCard(o); g.appendChild(c); return c; });
       el.appendChild(g);
       var sp6=document.createElement('div'); sp6.className='spacer'; el.appendChild(sp6);
       stage.appendChild(el);
+
+      var openers = {little:'It matters more than that.', guided:'That\u2019s about right.', very:'You\u2019re on the right track.', only:'It matters — but not the whole story.'};
+      wireSingleSelect(dietEls, opts, function(o){
+        state.dietPick=o.id;
+        el.querySelector('h1.q').textContent = openers[o.id];
+        revealInline(el, 'Diet and exercise help. But it must fit you. One plan won\u2019t fit all.');
+      });
       return;
     }
 
     if(name==='quizD'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">Can PCOS be managed well enough to reach your goals?</h1>'+
+      el.innerHTML = '<h1 class="q">Can PCOS be managed well enough to reach your goals?</h1>'+
         '<div class="tfrow" id="row">'+
           '<button class="tfbtn" data-v="yes">Yes</button>'+
           '<button class="tfbtn" data-v="no">No</button>'+
         '</div>';
       var sp7=document.createElement('div'); sp7.className='spacer'; el.appendChild(sp7);
       stage.appendChild(el);
+      var pickTokenD = 0;
       el.querySelectorAll('.tfbtn').forEach(function(b){
         b.onclick=function(){
           state.tfD=b.dataset.v;
-          el.querySelectorAll('.tfbtn').forEach(function(x){x.classList.add('locked');});
+          el.querySelectorAll('.tfbtn').forEach(function(x){x.classList.remove('picked');});
           b.classList.add('picked');
           burst(b);
           var opener = state.tfD==='yes' ? 'Yes — exactly right.' : 'Actually, yes.';
-          el.querySelector('h1.q').textContent = opener;
-          sp7.remove();
-          revealInline(el, 'The path there just isn\u2019t the same for everyone. Which is exactly what the next part is about: finding yours.');
+          var myToken = ++pickTokenD;
+          setTimeout(function(){
+            if(myToken!==pickTokenD) return;
+            el.querySelector('h1.q').textContent = opener;
+            revealInline(el, 'Everyone\u2019s path looks different. Let\u2019s find yours.');
+          }, 220);
         };
       });
       return;
@@ -674,7 +712,7 @@
 
     if(name==='quizE'){
       el = screenWrap('question');
-      el.innerHTML = mascot('crescent','sm') + '<h1 class="q">What should a PCOS workshop get right?</h1><p class="sub">Pick 3.</p>';
+      el.innerHTML = '<h1 class="q">What should a PCOS workshop get right?</h1><p class="sub">Pick 3.</p>';
       var g6=document.createElement('div'); g6.className='cardgrid'; g6.id='credGrid';
       CRED.forEach(function(o){
         var c=iconCard(o); c.dataset.id=o.id;
@@ -694,7 +732,7 @@
         g6.querySelectorAll('.card').forEach(function(c){ c.classList.add('locked'); });
         btn.remove(); sp8.remove();
         revealInline(el,
-          'The Phases Standard: reviewed by OB-GYNs and endocrinologists, written from real patient conversations, and re-checked as research updates. So you get care, not content.');
+          'Doctors check it. Real patients help write it. We keep it fresh. That\u2019s care, not content.');
       };
       el.appendChild(btn);
       stage.appendChild(el);
